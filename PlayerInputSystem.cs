@@ -100,6 +100,15 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""58429a6e-f826-44a6-bb6e-f4a17d6a668d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -157,6 +166,17 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4c34dab-b8ce-441c-821d-2110b50e8a85"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -166,6 +186,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         // BaseMap
         m_BaseMap = asset.FindActionMap("BaseMap", throwIfNotFound: true);
         m_BaseMap_Move = m_BaseMap.FindAction("Move", throwIfNotFound: true);
+        m_BaseMap_Attack1 = m_BaseMap.FindAction("Attack1", throwIfNotFound: true);
     }
 
     ~@PlayerInputSystem()
@@ -247,6 +268,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_BaseMap;
     private List<IBaseMapActions> m_BaseMapActionsCallbackInterfaces = new List<IBaseMapActions>();
     private readonly InputAction m_BaseMap_Move;
+    private readonly InputAction m_BaseMap_Attack1;
     /// <summary>
     /// Provides access to input actions defined in input action map "BaseMap".
     /// </summary>
@@ -262,6 +284,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "BaseMap/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_BaseMap_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "BaseMap/Attack1".
+        /// </summary>
+        public InputAction @Attack1 => m_Wrapper.m_BaseMap_Attack1;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -291,6 +317,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Attack1.started += instance.OnAttack1;
+            @Attack1.performed += instance.OnAttack1;
+            @Attack1.canceled += instance.OnAttack1;
         }
 
         /// <summary>
@@ -305,6 +334,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Attack1.started -= instance.OnAttack1;
+            @Attack1.performed -= instance.OnAttack1;
+            @Attack1.canceled -= instance.OnAttack1;
         }
 
         /// <summary>
@@ -352,5 +384,12 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack1(InputAction.CallbackContext context);
     }
 }

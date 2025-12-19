@@ -3,15 +3,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject weapon;
+    private Animator weaponAnimator;
+    
+    
+    
+    private PlayerInputSystem playerInputSystem;
+    private Animator animator;
+    private CharacterController characterController;
 
-    PlayerInputSystem playerInputSystem;
     [SerializeField] private float speed = 5.0f;
     Vector3 move_direction = Vector3.zero;
-    Animator animator;
 
     private void Awake()
     {
         playerInputSystem = new PlayerInputSystem();
+        
     }
 
     private void OnEnable()
@@ -23,6 +30,15 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
+        
+        var MoveMap = playerInputSystem.BaseMap.Move;
+        //MoveMap.started += MoveAction;
+        MoveMap.performed += MoveAction;
+        MoveMap.canceled += MoveAction;
+
+        var Attack1 = playerInputSystem.BaseMap.Attack1;
+        Attack1.performed += Attack1Action;
     }
 
 
@@ -31,20 +47,26 @@ public class PlayerController : MonoBehaviour
         move_direction.x = keys_vector2.x;
         move_direction.z = keys_vector2.y;
         animator.SetBool("IsMoving", move_direction != Vector3.zero);
-        
     }
+
+    private void Attack1Action(InputAction.CallbackContext context)
+    {
+        animator.SetTrigger("Attack1");
+
+    }
+
     // Update is called once per frame
     void Update()
     {
-        var MoveMap = playerInputSystem.BaseMap.Move;
-        //MoveMap.started += MoveAction;
-        MoveMap.performed += MoveAction;
-        MoveMap.canceled += MoveAction;
         
         UpdatePos();
     }
 
     private void UpdatePos() {
-        transform.position += speed * move_direction * Time.deltaTime;
+        if (move_direction != Vector3.zero)
+        {
+            characterController.Move(speed * move_direction * Time.deltaTime);
+        }
     }
+
 }
