@@ -1,0 +1,60 @@
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+
+[CreateAssetMenu(fileName = "InputReader", menuName = "Scriptable Objects/InputReader")]
+public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
+{
+
+    public event UnityAction attackEvent = delegate { };
+    public event UnityAction<Vector2> cameraMoveEvent = delegate { };
+    public event UnityAction<Vector2> moveEvent = delegate { };
+    public event UnityAction runStartEvent = delegate { };
+    public event UnityAction runStopEvent = delegate { };
+
+    private PlayerInputSystem playerInput;
+    
+
+    private void OnEnable()
+    {
+        if (playerInput == null) { 
+            playerInput = new PlayerInputSystem();
+            playerInput.Gameplay.SetCallbacks(this);
+        }
+    }
+
+
+    public void EnableGameplay() {
+        playerInput.Gameplay.Enable();
+    }
+
+    public void DisableInputSystem() { 
+        playerInput.Gameplay.Disable();
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            attackEvent.Invoke();
+        }
+    }
+
+    public void OnCameraMove(InputAction.CallbackContext context)
+    {
+        cameraMoveEvent.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveEvent.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            runStartEvent.Invoke();    
+        }else if (context.phase == InputActionPhase.Canceled) {
+            runStopEvent.Invoke();
+        }
+    }
+}
