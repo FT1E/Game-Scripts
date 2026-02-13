@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     // other components
     private CharacterController characterController;
-    private Animator animator;
+    [SerializeField] private Animator animator = default;
     [SerializeField] private float animatorMaxSpeed = 2f;
 
     // input data
@@ -24,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     // rotation data
-    private Vector3 currentDirection = new Vector3(0f, 0f, 1f);
-    private Vector3 newRotation = new Vector3(0f, 0f, 1f);
-    [SerializeField] private float rotationSpeed = 0.5f;
+    private float currentAspect = 0f;   // rotation.y value - i.e. where the player is currently facing
+    [SerializeField] private float rotationSpeed = 360f;
+    [SerializeField] private Transform cameraTransform = default;
 
     private void OnEnable()
     {
@@ -50,17 +50,16 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CalculateMovement();
-        UpdateRotation();
+        ApplyRotation();
         setAnimatorSpeed();
         UpdatePos();
-
     }
 
 
@@ -91,11 +90,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void UpdateRotation() {
-        if (moveDirection != Vector3.zero) {
-            float angle = Vector3.SignedAngle(currentDirection, moveVector, Vector3.up);
+    private void ApplyRotation() {
+        if (moveVector != Vector3.zero) {
+            // apply camera rotation on the movement vector
+            moveVector = Quaternion.AngleAxis(cameraTransform.eulerAngles.y, Vector3.up) * moveVector;
 
-            this.transform.Rotate(Vector3.up, angle * Time.deltaTime);
+            // rotate the character toward the movement
+
+            //float angle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
+
+            //transform.forward = moveVector;
+
+            Quaternion lookRotation = Quaternion.LookRotation(moveVector);
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
@@ -112,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
     private void UpdatePos() {
-        
 
         characterController.Move(moveVector * Time.deltaTime);
     }

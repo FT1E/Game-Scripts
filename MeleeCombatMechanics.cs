@@ -4,7 +4,7 @@ public class MeleeCombatMechanics : MonoBehaviour
 {
 
     [SerializeField] private InputReader _inputReader = default;
-    private Animator animator;
+    [SerializeField] private Animator animator = default;
     private System.Random random = new System.Random();
 
     [SerializeField] private int numberOfSlashAttacks = 3;
@@ -12,7 +12,7 @@ public class MeleeCombatMechanics : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
