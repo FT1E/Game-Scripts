@@ -8,7 +8,7 @@ public class HealthController : MonoBehaviour
     // will have an option about whether to show an entity's health bar
     [SerializeField] private GameObject ui_health;
 
-    [SerializeField] private float max_health = 5.0f;
+    [SerializeField] private float max_health = 100.0f;
     private float current_health = 0;
 
 
@@ -39,9 +39,8 @@ public class HealthController : MonoBehaviour
         // change the layers and stuff so the player can't interact with it - pointless to call DealDamage on a dead enemy
         // destroy game object when player can't see it - need to figure this out
         // 
-        animator.SetTrigger("Death");
-        // todo - remove below line 
-        GetComponent<CapsuleCollider>().direction = 2;  // 2 == z-axis ; so it doesn't float in the air when dead
+        //animator.SetTrigger("Death");
+        Debug.Log(this.name + " died");
     }
 
     private void UpdateHealthBar()

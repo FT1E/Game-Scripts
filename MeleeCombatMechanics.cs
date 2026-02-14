@@ -9,6 +9,7 @@ public class MeleeCombatMechanics : MonoBehaviour
 
     [SerializeField] private int numberOfSlashAttacks = 3;
 
+    [SerializeField] private Weapon weapon = default;
 
     private void Awake()
     {
@@ -39,6 +40,7 @@ public class MeleeCombatMechanics : MonoBehaviour
     }
 
     public void RandomSlashAttack() {
-        animator.SetTrigger($"Attack{random.Next(1,numberOfSlashAttacks + 1)}");
+        //animator.SetTrigger($"Attack{random.Next(numberOfSlashAttacks)}");
+        weapon.Attack(random.Next(numberOfSlashAttacks), animator);
     }
 }
