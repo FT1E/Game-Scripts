@@ -74,11 +74,11 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //Debug.Log("OnCollisionEnter called");
-        onHit(collision.gameObject);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //Debug.Log("OnCollisionEnter called");
+    //    onHit(collision.gameObject);
+    //}
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("OnTriggerEnter called");

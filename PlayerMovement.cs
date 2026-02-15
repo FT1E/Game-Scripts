@@ -133,6 +133,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void RunStop() { 
-        isRunning &= false;
+        isRunning = false;
     }
 }
