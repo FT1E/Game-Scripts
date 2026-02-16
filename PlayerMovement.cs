@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector2.zero;
     private Boolean isRunning = false;
 
-    // position data
+    // non-y-vertical position data
     [SerializeField] private float currentSpeed = 0f;
     [SerializeField] private float maxWalkingSpeed = 2f;
     [SerializeField] private float maxRunningSpeed = 5.0f;
@@ -22,6 +22,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 moveVector = Vector3.zero;
 
+    // vertical/y positioning
+    private readonly float gravity = -9.81f;
+    [SerializeField] private float gravityMultiplier = 3f;
+    private bool jumpTrigger = false;
+    [SerializeField] private float jumpPushPower = 20f;
+    private float verticalSpeed = 0f;
 
     // rotation data
     private float currentAspect = 0f;   // rotation.y value - i.e. where the player is currently facing
@@ -33,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
         _inputReader.moveEvent += OnMove;
         _inputReader.runStartEvent += RunStart;
         _inputReader.runStopEvent += RunStop;
+        _inputReader.jumpStartEvent += JumpStart;
+        _inputReader.jumpCancelEvent += JumpCancel;
 
         _inputReader.EnableGameplay();
     }
@@ -42,7 +50,9 @@ public class PlayerMovement : MonoBehaviour
         _inputReader.moveEvent -= OnMove;
         _inputReader.runStartEvent -= RunStart;
         _inputReader.runStopEvent -= RunStop;
-     
+        _inputReader.jumpStartEvent -= JumpStart;
+        _inputReader.jumpCancelEvent -= JumpCancel;
+
         _inputReader.DisableInputSystem();
     }
 
@@ -58,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     {
         CalculateMovement();
         ApplyRotation();
+        CalculateVerticalChange();
         setAnimatorSpeed();
         UpdatePos();
     }
@@ -87,6 +98,26 @@ public class PlayerMovement : MonoBehaviour
         else {
             moveVector = Vector3.zero;
         }
+    }
+
+    private void CalculateVerticalChange()
+    {
+        if (jumpTrigger)
+        {
+            jumpTrigger = false;
+            verticalSpeed = jumpPushPower;
+        }
+
+        if (characterController.isGrounded && verticalSpeed <= 0.1f)
+        {
+            verticalSpeed = -1f;
+        }
+        else
+        {
+            verticalSpeed += gravity * gravityMultiplier * Time.deltaTime;
+        }
+
+        moveVector.y += verticalSpeed;
     }
 
 
@@ -134,5 +165,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void RunStop() { 
         isRunning = false;
+    }
+
+    private void JumpStart()
+    {
+        jumpTrigger = true;
+    }
+
+    private void JumpCancel()
+    {
+        jumpTrigger = false;
     }
 }
