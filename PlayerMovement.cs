@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (currentSpeed < maxRunningSpeed)
                 {
-                    currentSpeed += runAcceleration;
+                    currentSpeed += runAcceleration * Time.deltaTime;
                 }
                 else
                 {
