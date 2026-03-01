@@ -67,7 +67,7 @@ public class MoveState : MState
         CalculateYMove();
         RotateCharacter();
         SetAnimatorSpeed();
-        character.moveVector = moveVector;
+        character.moveVector += moveVector * Time.deltaTime;
 
         PerformMove();
     }
@@ -81,7 +81,8 @@ public class MoveState : MState
         if (moveDirection == Vector2.zero)
         {
             currentSpeed = 0f;
-            moveVector.x = moveVector.z = 0f;
+            character.moveVector.x = 0f;
+            character.moveVector.z = 0f;
             return;
         }
         if (currentSpeed < maxSpeed)
