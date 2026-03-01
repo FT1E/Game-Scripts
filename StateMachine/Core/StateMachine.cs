@@ -4,11 +4,13 @@ public class StateMachine : MonoBehaviour
 {
     // anything using it NEEDS TO SPECIFY initialState
     // probably will make it so that it's an SO (ScriptableObject)
+    // the structure of the StateMachine is defined by the transitions that each state has
+    // the transitions are stored in the state where they originate from
 
 
     [Tooltip("You need to specify initial state")]
     [SerializeField] 
-    private StateSO initial;
+    private StateSO initial = default;
 
     private StateSO current;
     private StateSO next;
@@ -25,7 +27,7 @@ public class StateMachine : MonoBehaviour
     {
         // transitions should be ordered by priority
         // check for transitions 
-        next = current.checkTransitions();
+        next = current.checkTransitions(this);
         if (next == null)
         {
             // if none found do OnUpdate

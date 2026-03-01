@@ -15,25 +15,20 @@ public abstract class StateSO : ScriptableObject
     // different types of enemies may move with different speeds
     // player will likely move with different speed from enemies
     // but can use this for both - same MoveState, MoveStateSO - just different parameters
-    
-    
-    public readonly State state;
+
+
+    protected MState _state;
+    public MState state { get { return _state; } }
 
     // transitions to other states
-    protected TCondition[] conditions;
-    protected StateSO[] transitions;
-    // if conditions[i].Check() == true
-    // -> transition to state transitions[i]
-    // transition to first condition evaluating to true
-    // empty condition is also viable
-
-    public StateSO checkTransitions()
+    [SerializeField] private Transition[] transitions;
+    public StateSO checkTransitions(StateMachine stateMachine)
     {
-        for (int i = 0; i < conditions.Length; i++)
+        for (int i = 0; i < transitions.Length; i++)
         {
-            if (conditions[i].Check())
+            if (transitions[i].condition.Check(stateMachine))
             {
-                return transitions[i];
+                return transitions[i].toState;
             }
         }
         return null;
