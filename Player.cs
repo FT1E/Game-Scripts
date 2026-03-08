@@ -15,8 +15,13 @@ public class Player : Character
     
     
     // input direction read is rotated relative to camera
-    new public Vector2 moveDirection { get { return Quaternion.AngleAxis(cameraTransform.eulerAngles.y, Vector3.up) * _moveDirection; } }
-    
+    override public Vector2 moveDirection { get {
+        float angle = - Mathf.Deg2Rad * cameraTransform.rotation.eulerAngles.y; 
+        return new Vector2(
+            _moveDirection.x * Mathf.Cos(angle) - _moveDirection.y * Mathf.Sin(angle),
+            _moveDirection.x * Mathf.Sin(angle) + _moveDirection.y * Mathf.Cos(angle)
+         );
+         }}
 
     // END INPUT READ VARIABLES
 

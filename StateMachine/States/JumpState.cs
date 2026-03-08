@@ -21,7 +21,7 @@ public class JumpState : MState
         }
 
         // apply jump push - this will slowly get smaller in MoveState, where gravity is applied
-        character.moveVector.y += jumpPower;
+        character.velocityVector.y += jumpPower;
         
         // consume jump trigger input
         character.jumpTrigger = false;  

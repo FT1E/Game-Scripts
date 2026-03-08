@@ -17,10 +17,10 @@ public class Character : MonoBehaviour
     
 
     protected Vector2 _moveDirection;
-    public Vector2 moveDirection { get { return _moveDirection; } }
+    virtual public Vector2 moveDirection { get { return _moveDirection; } }
 
 
-    public Vector3 moveVector;
+    public Vector3 velocityVector;
     public bool jumpTrigger;
     public bool isRunning;
     public bool attackTrigger;
