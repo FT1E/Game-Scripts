@@ -32,6 +32,7 @@ public class MoveState : MState
     private Vector3 velocityVector;
     private Vector3 rotationVector;
     private float tempMaxSpeed, xDir, zDir;
+    private float temp;
 
     public MoveState(float maxSpeed, float acceleration, float decelaration, float rotationSpeed = 360f, float animatorMaxSpeed = 2f)
     {
@@ -102,7 +103,19 @@ public class MoveState : MState
         //     currentSpeed = maxSpeed;
         // }
 
-        currentSpeed = Mathf.Max(Mathf.Abs(velocityVector.x), Mathf.Abs(velocityVector.z));
+        if(velocityVector.x != 0)
+        {
+            currentSpeed = Mathf.Abs(velocityVector.x / velocityVector.normalized.x);
+        }
+        else if(velocityVector.z != 0)
+        {
+            currentSpeed = Mathf.Abs(velocityVector.z / velocityVector.normalized.z);
+        }
+        else
+        {
+            currentSpeed = 0f;
+        }
+
 
         if(moveDirection != Vector2.zero) tempMaxSpeed = (character.isRunning ? maxSpeed : 0.5f * maxSpeed);
         else tempMaxSpeed = 0f;
@@ -113,15 +126,16 @@ public class MoveState : MState
         {
             if(currentSpeed < 0.5f * maxSpeed)
             {
+                // tempMaxSpeed == 0 is implied, since tempMS < currentSpeed < 0.5f * mSpeed
                 currentSpeed = 0f;
             }
-            else
+            else 
             {
                 // decelerate
                 currentSpeed -= decelaration * Time.deltaTime;
                 // keep same directions
-                xDir = Mathf.Sign(velocityVector.x);
-                zDir = Mathf.Sign(velocityVector.z);    
+                xDir = velocityVector.normalized.x;
+                zDir = velocityVector.normalized.z;    
             }
         }
         else
