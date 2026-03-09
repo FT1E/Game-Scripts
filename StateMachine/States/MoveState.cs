@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MoveState : MState
@@ -11,7 +12,7 @@ public class MoveState : MState
 
     // variables for moving on xz coordinates
     private float currentSpeed = 0f;
-    private float maxSpeed, acceleration;
+    private float maxSpeed, acceleration, decelaration;
 
     // variables for moving on y coordinate
     private float gravity = -9.81f;
@@ -30,13 +31,15 @@ public class MoveState : MState
     private Vector2 moveDirection;
     private Vector3 velocityVector;
     private Vector3 rotationVector;
+    private float tempMaxSpeed, xDir, zDir;
 
-    public MoveState(float maxSpeed, float acceleration, float rotationSpeed = 360f, float animatorMaxSpeed = 2f)
+    public MoveState(float maxSpeed, float acceleration, float decelaration, float rotationSpeed = 360f, float animatorMaxSpeed = 2f)
     {
         name = "Move State";
 
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
+        this.decelaration = decelaration;
         this.rotationSpeed = rotationSpeed;
         this.animatorMaxSpeed = animatorMaxSpeed;
     }
@@ -72,7 +75,7 @@ public class MoveState : MState
         character.velocityVector = velocityVector;
         PerformMove();
 
-        Debug.Log(velocityVector.y);
+        Debug.Log(velocityVector);
 
     }
 
@@ -99,12 +102,46 @@ public class MoveState : MState
         //     currentSpeed = maxSpeed;
         // }
 
-        currentSpeed = 0.75f * maxSpeed;
+        currentSpeed = Mathf.Max(Mathf.Abs(velocityVector.x), Mathf.Abs(velocityVector.z));
 
-        velocityVector.x = moveDirection.x * currentSpeed;
-        velocityVector.z = moveDirection.y * currentSpeed;
-        //moveVector *= currentSpeed;
+        if(moveDirection != Vector2.zero) tempMaxSpeed = (character.isRunning ? maxSpeed : 0.5f * maxSpeed);
+        else tempMaxSpeed = 0f;
+
+
+        // if a force has been applied so currentSpeed is greater than the above limit
+        if(currentSpeed > tempMaxSpeed)
+        {
+            if(currentSpeed < 0.5f * maxSpeed)
+            {
+                currentSpeed = 0f;
+            }
+            else
+            {
+                // decelerate
+                currentSpeed -= decelaration * Time.deltaTime;
+                // keep same directions
+                xDir = Mathf.Sign(velocityVector.x);
+                zDir = Mathf.Sign(velocityVector.z);    
+            }
+        }
+        else
+        {
+            if(tempMaxSpeed == 0.5f * maxSpeed)
+            {
+                currentSpeed = 0.5f * maxSpeed;
+            }
+            else
+            {
+                currentSpeed += acceleration * Time.deltaTime;
+            }
+            xDir = moveDirection.x;
+            zDir = moveDirection.y;
+        }
+        
+        velocityVector.x = xDir * currentSpeed;
+        velocityVector.z = zDir * currentSpeed;
         // don't wanna affect y with this speed
+
     }
 
     private void CalculateYMove() {
