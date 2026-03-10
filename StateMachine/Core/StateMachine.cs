@@ -25,6 +25,7 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log($"State name : {current.state.name}");
         // transitions should be ordered by priority
         // check for transitions 
         next = current.checkTransitions(this);

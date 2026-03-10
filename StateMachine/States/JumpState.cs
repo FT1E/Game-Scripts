@@ -9,6 +9,7 @@ public class JumpState : MState
     
     public JumpState(float jumpPower)
     {
+        this.name = "Jump state";
         this.jumpPower = jumpPower;
     }
 

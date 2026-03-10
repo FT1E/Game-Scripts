@@ -35,6 +35,7 @@ public class AttackState : MState
 
     public AttackState(float damage, float clipLength, String animatorParam)
     {
+        this.name = "Attack State";
         this.damage = damage;
         this.clipLength = clipLength;
         this.animatorParam = animatorParam;
@@ -81,6 +82,17 @@ public class AttackState : MState
         animator.SetBool(animatorParam, true);
 
         yield return new WaitForSeconds(clipLength);
+
+        character.attackTrigger = false;    
+        // * consume here again, in case player pressed attack again
+        // * result is kinda weird in example like this:
+        // *    - user right clicks (attack)
+        // *    - animation starts - lenght around 1.8s
+        // *    - user presses attack (right click) after 0.4s
+        // *    - user doesn't press attack anymore
+        // *    - player tries to attack again since the above input wasn't consume
+        // *    - user is confused
+        // TODO - think about above scenario - maybe set trigger to false if not consumed within 0.5s (or some other interval)
 
         animator.SetBool(animatorParam, false);
         weapon.damage = 0f;  // just for safety
