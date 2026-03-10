@@ -26,7 +26,7 @@ public abstract class StateSO : ScriptableObject
     {
         for (int i = 0; i < transitions.Length; i++)
         {
-            if (transitions[i].condition.Check(stateMachine))
+            if (transitions[i].CheckConditions(stateMachine))
             {
                 return transitions[i].toState;
             }

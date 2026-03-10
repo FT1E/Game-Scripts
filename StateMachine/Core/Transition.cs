@@ -7,7 +7,20 @@ using System;
 public class Transition
 {
     [SerializeField]
-    public StateSO toState;
+    private StateSO _toState;
+    public StateSO toState { get {return _toState;} }
+
     [SerializeField]
-    public TCondition condition;
+    private TCondition[] conditions;
+
+    public bool CheckConditions(StateMachine stateMachine)
+    {
+        // if condition empty it skips loop and returns true
+        foreach (TCondition condition in conditions)
+        {
+            if(!condition.Check(stateMachine)) return false;
+        }
+        return true;
+    }
+
 }
