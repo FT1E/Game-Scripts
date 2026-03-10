@@ -76,7 +76,7 @@ public class MoveState : MState
         character.velocityVector = velocityVector;
         PerformMove();
 
-        Debug.Log(velocityVector);
+        // Debug.Log(velocityVector);
 
     }
 

@@ -15,6 +15,9 @@ public class Character : MonoBehaviour
     public Animator animator { get { return _animator; } }
 
     
+    [SerializeField]
+    protected Weapon _weapon;
+    public Weapon weapon { get { return _weapon; } }
 
     protected Vector2 _moveDirection;
     virtual public Vector2 moveDirection { get { return _moveDirection; } }
