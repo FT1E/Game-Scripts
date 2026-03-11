@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MoveStateSO", menuName = "Scriptable Objects/State Machine/States/Move State")]
+[CreateAssetMenu(fileName = "MoveStateSO", menuName = "State Machine/States/Move State")]
 public class MoveStateSO : StateSO
 {
 

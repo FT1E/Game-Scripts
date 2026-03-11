@@ -5,7 +5,7 @@ using UnityEngine;
 // like for example JumpState, just set jump -> idle -> in-airMove (or just stay in idle if grounded)
 // basically like a central state connected to (almost) every other state
 
-[CreateAssetMenu(fileName = "MoveStateSO", menuName = "Scriptable Objects/State Machine/States/Idle State")]
+[CreateAssetMenu(fileName = "MoveStateSO", menuName = "State Machine/States/Idle State")]
 public class IdleStateSO : StateSO
 {
 

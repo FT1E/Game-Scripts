@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "AttackTrigger", menuName = "Scriptable Objects/State Machine/Conditions/Attack Triggered")]
+[CreateAssetMenu(fileName = "AttackTrigger", menuName = "State Machine/Conditions/Attack Triggered")]
 public class AttackTrigger : TCondition
 {
     public override bool Check(StateMachine stateMachine)

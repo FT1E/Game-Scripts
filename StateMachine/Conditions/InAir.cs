@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InAir", menuName = "Scriptable Objects/State Machine/Conditions/Character In Air (Not grounded)")]
+[CreateAssetMenu(fileName = "InAir", menuName = "State Machine/Conditions/Character In Air (Not grounded)")]
 class InAir : TCondition
 {
     public override bool Check(StateMachine stateMachine)

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttackStateSO", menuName = "Scriptable Objects/State Machine/States/Attack State")]
+[CreateAssetMenu(fileName = "AttackStateSO", menuName = "State Machine/States/Attack State")]
 public class AttackStateSO : StateSO
 {
     [SerializeField]

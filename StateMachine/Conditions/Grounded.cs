@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Grounded", menuName = "Scriptable Objects/State Machine/Conditions/Character Grounded")]
+[CreateAssetMenu(fileName = "Grounded", menuName = "State Machine/Conditions/Character Grounded")]
 class Grounded : TCondition
 {
     public override bool Check(StateMachine stateMachine)
