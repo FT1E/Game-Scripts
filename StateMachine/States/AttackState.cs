@@ -6,12 +6,6 @@ public class AttackState : MState
 {
     // TODO - may add attack cancelling mechanics - or just use shorter animations
 
-    // Component variables used
-    private Character character;
-    private Animator animator;
-    private Weapon weapon;
-    // end Component variables
-
     // damage
     private float damage;
 
@@ -23,15 +17,6 @@ public class AttackState : MState
     
     // end animation data
 
-    // exit condition
-    private bool _performed;
-    public bool performed {get {return _performed;} }
-    // end exit condition - used by AttackStateSO to check if it can exit state
-    
-    // temp variables
-    private IEnumerator coroutine;
-    // end temp variables
-
 
     public AttackState(float damage, float clipLength, String animatorParam)
     {
@@ -41,33 +26,25 @@ public class AttackState : MState
         this.animatorParam = animatorParam;
     }
 
-    public override void OnEnter(StateMachine stateMachine)
+    protected override void onEnter(StateMachine stateMachine)
     {
 
-        if(character == null)
-        {
-            character = stateMachine.GetComponent<Character>();
-            animator = character.animator;
-            weapon = character.weapon;
-        }
-
-        character.attackTrigger = false;    // consume the input
+        stateMachine.character.attackTrigger = false;    // consume the input
 
         // base.OnEnter(stateMachine);
-        _performed = false;
+        stateMachine.character.attackPerformed = false;
 
         // start coRoutine which sets _performed to True at end
-        
-        coroutine = attackCoroutine();
-        stateMachine.StartCoroutine(coroutine); // the method is in MonoBehaviour so it's like this
+        stateMachine.StartCoroutine(attackCoroutine(stateMachine.character)); // the method is in MonoBehaviour so it's like this
     }
 
 
-    private IEnumerator attackCoroutine()
+    private IEnumerator attackCoroutine(Character character)
     {
+        Weapon weapon = character.weapon;
         if(!weapon.setAttackingTrue()) {
             // if weapon is already performing an attack
-            _performed = true;  // also set this to true so it can exit transition
+            character.attackPerformed = true;  // also set this to true so it can exit transition
             yield break;
             // although this shouldn't happen, but still
             // * this is from previous structure (without StateMachine) - but yeah better safe than sorry
@@ -77,6 +54,8 @@ public class AttackState : MState
 
         weapon.damage = damage;
         weapon.clearHits();
+
+        Animator animator = character.animator;
 
         // start animation
         animator.SetBool(animatorParam, true);
@@ -98,8 +77,11 @@ public class AttackState : MState
         weapon.damage = 0f;  // just for safety
         weapon.setAttackingFalse();
 
-        _performed = true;
+        character.attackPerformed = true;
     }
+
+    protected override void onUpdate(StateMachine stateMachine){}
+    protected override void onExit(StateMachine stateMachine){}
 
 
 }

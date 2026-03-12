@@ -36,7 +36,7 @@ public class AttackStateSO : StateSO
 
     public override StateSO checkTransitions(StateMachine stateMachine)
     {
-        if(attackState.performed){
+        if(stateMachine.character.attackPerformed){
             return base.checkTransitions(stateMachine);
         }
         return null;

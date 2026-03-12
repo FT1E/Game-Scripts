@@ -28,20 +28,10 @@ public class Character : MonoBehaviour
     public bool isRunning;
     public bool attackTrigger;
 
+    public bool attackPerformed = false;
+
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -10,20 +10,8 @@ public class Player : Character
     protected Transform _cameraTransform;
     public Transform cameraTransform { get { return _cameraTransform; } }
 
-
-    // INPUT READ VARIABLES
-    
-    
-    // input direction read is rotated relative to camera
-    override public Vector2 moveDirection { get {
-        float angle = - Mathf.Deg2Rad * cameraTransform.rotation.eulerAngles.y; 
-        return new Vector2(
-            _moveDirection.x * Mathf.Cos(angle) - _moveDirection.y * Mathf.Sin(angle),
-            _moveDirection.x * Mathf.Sin(angle) + _moveDirection.y * Mathf.Cos(angle)
-         );
-         }}
-
-    // END INPUT READ VARIABLES
+    [SerializeField]
+    private PlayerInfo playerInfo = default;   // for setting the values
 
     private void OnEnable()
     {
@@ -52,6 +40,13 @@ public class Player : Character
     private void OnMove(Vector2 input)
     {
         _moveDirection = input;
+
+        // apply rotation - so that movement is relative to camera
+        float angle = - Mathf.Deg2Rad * cameraTransform.rotation.eulerAngles.y; 
+        _moveDirection =  new Vector2(
+            _moveDirection.x * Mathf.Cos(angle) - _moveDirection.y * Mathf.Sin(angle),
+            _moveDirection.x * Mathf.Sin(angle) + _moveDirection.y * Mathf.Cos(angle)
+         );
     }
     private void RunStart()
     {
@@ -75,5 +70,10 @@ public class Player : Character
 
     private void AttackTrigger() { 
         attackTrigger = true;
+    }
+
+    void Update()
+    {
+        playerInfo.SetPosition(transform.position);
     }
 }

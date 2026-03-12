@@ -5,7 +5,6 @@ public class JumpState : MState
 {
 
     private float jumpPower;
-    private Character character = null;
     
     public JumpState(float jumpPower)
     {
@@ -13,13 +12,11 @@ public class JumpState : MState
         this.jumpPower = jumpPower;
     }
 
-    public override void OnEnter(StateMachine stateMachine)
+    protected override void onEnter(StateMachine stateMachine)
     {
         //base.OnEnter(stateMachine);
-        if (character == null)
-        {
-            character = stateMachine.GetComponent<Character>();
-        }
+
+        Character character = stateMachine.character;
 
         // apply jump push - this will slowly get smaller in MoveState, where gravity is applied
         character.velocityVector.y += jumpPower;
@@ -30,4 +27,7 @@ public class JumpState : MState
         // todo - trigger jump animation
 
     }
+    protected override void onUpdate(StateMachine stateMachine){}
+    protected override void onExit(StateMachine stateMachine){}
+
 }

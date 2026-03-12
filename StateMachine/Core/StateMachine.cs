@@ -15,6 +15,13 @@ public class StateMachine : MonoBehaviour
     private StateSO current;
     private StateSO next;
 
+    private Character _character;
+    public Character character { get { return _character; } }
+
+    private void Awake() {
+        _character = GetComponent<Character>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,6 +32,10 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // todo bug fix - set up locks for getting each state, acquire lock at start of update, and release it at end
+        // todo - also state onEnter, onUpdate, onExit - at beginning they get components from this/stateMachine argument
+        // todo - lock acquire/release is done in stateSO
+
         // Debug.Log($"State name : {current.state.name}");
         // transitions should be ordered by priority
         // check for transitions 

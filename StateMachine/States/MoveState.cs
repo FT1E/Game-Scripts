@@ -3,22 +3,15 @@ using UnityEngine;
 
 public class MoveState : MState
 {
-    // todo - may add decelleration for XZ move
-
-    // components used
-    private Character character;
-    private Animator animator;
-    private CharacterController characterController;
+    // todo - maybe move stuff - so that physics is done in Character, and this is for applying / or trying to move the character
 
     // variables for moving on xz coordinates
-    private float currentSpeed = 0f;
     private float maxSpeed, acceleration, decelaration;
 
     // variables for moving on y coordinate
-    private float gravity = -9.81f;
-    private float gravityMultiplier = 1f;
-    private float maxGravitySpeed = -70f;
-    private float currentGravitySpeed = 0f;
+    private readonly float gravity = -9.81f;
+    private float gravityMultiplier = 1f;   // can be passed as argument
+    private float maxGravitySpeed = -70f;   // can be passed as argument
 
     // rotation variables
     private float rotationSpeed = 360f;
@@ -45,63 +38,42 @@ public class MoveState : MState
         this.animatorMaxSpeed = animatorMaxSpeed;
     }
 
-    public override void OnEnter(StateMachine stateMachine)
+    protected override void onEnter(StateMachine stateMachine)
     {
-        // todo - might change this - for some states where I might want to keep a momentum, idk
-        currentSpeed = 0f;
-
-        if (character == null) {
-            character = stateMachine.GetComponent<Character>();
-            animator = character.animator;
-            characterController = character.characterController;
-            // for rotation use character.transform.rotation
-        }
+        return;
     }
-    public override void OnExit(StateMachine stateMachine)
+    protected override void onExit(StateMachine stateMachine)
     {
-        currentSpeed = 0f;
-        animator.SetFloat("speed", 0f);
+        stateMachine.character.animator.SetFloat("speed", 0f);
     }
 
-    public override void OnUpdate(StateMachine stateMachine)
+    protected override void onUpdate(StateMachine stateMachine)
     {
+        Character character = stateMachine.character;
         velocityVector = character.velocityVector;
         moveDirection = character.moveDirection;
         
-        CalculateXZMove();
-        RotateCharacter();
+        CalculateXZMove(character.isRunning);
+        RotateCharacter(character.transform);
         SetAnimatorSpeed();
-        CalculateYMove();
+        CalculateYMove(character.characterController.isGrounded);
 
-        character.velocityVector = velocityVector;
-        PerformMove();
+        stateMachine.character.velocityVector = velocityVector;
+        PerformMove(stateMachine);
 
         // Debug.Log(velocityVector);
 
     }
 
-    private void PerformMove() {
-        characterController.Move(character.velocityVector * Time.deltaTime);
+    private void PerformMove(StateMachine stateMachine) {
+        stateMachine.character.characterController.Move(velocityVector * Time.deltaTime);
     }
 
 
-    private void CalculateXZMove() {
-        // ! TODO - implement decelaration
-        // * - not holding shift - decelerate to 0
-        // * - if run previously with shift hold - decelarate slower
-        // * - also maybe instant deceleration if player holds CTRL or something
+    private void CalculateXZMove(bool isRunning) {
+        // todo - instant deceleration if player holds CTRL or something
 
-        
-
-        // ! only accelerate if player holds shift
-        // if (currentSpeed < maxSpeed)
-        // {
-        //     currentSpeed += acceleration * Time.deltaTime;
-        // }
-        // else
-        // {
-        //     currentSpeed = maxSpeed;
-        // }
+        float currentSpeed;
 
         if(velocityVector.x != 0)
         {
@@ -117,7 +89,7 @@ public class MoveState : MState
         }
 
 
-        if(moveDirection != Vector2.zero) tempMaxSpeed = (character.isRunning ? maxSpeed : 0.5f * maxSpeed);
+        if(moveDirection != Vector2.zero) tempMaxSpeed = (isRunning ? maxSpeed : 0.5f * maxSpeed);
         else tempMaxSpeed = 0f;
 
 
@@ -158,9 +130,8 @@ public class MoveState : MState
 
     }
 
-    private void CalculateYMove() {
-        if (characterController.isGrounded && velocityVector.y <= 0) {
-            currentGravitySpeed = 0f;
+    private void CalculateYMove(bool isGrounded) {
+        if (isGrounded && velocityVector.y <= 0) {
             velocityVector.y = -1f;
             return;
         }
@@ -175,7 +146,7 @@ public class MoveState : MState
         // velocityVector.y *= Time.deltaTime;
     }
 
-    private void RotateCharacter() {
+    private void RotateCharacter(Transform transform) {
         if (moveDirection != Vector2.zero)
         {
 
@@ -183,14 +154,14 @@ public class MoveState : MState
             rotationVector.x = moveDirection.x;
             rotationVector.z = moveDirection.y;
             Quaternion lookRotation = Quaternion.LookRotation(rotationVector);
-            character.transform.rotation = Quaternion.RotateTowards(character.transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
     private void SetAnimatorSpeed()
     {
-        animator.SetFloat("speed", (Mathf.Abs(velocityVector.x)  + Mathf.Abs(velocityVector.z) > 0 ? animatorMaxSpeed * 1.5f : 0f) );
-        // ! todo - uncomment below after
+        // animator.SetFloat("speed", (Mathf.Abs(velocityVector.x)  + Mathf.Abs(velocityVector.z) > 0 ? animatorMaxSpeed * 1.5f : 0f) );
+        // ! todo - uncomment after
         // animator.SetFloat("speed", (currentSpeed / maxSpeed) * animatorMaxSpeed);
     }
 }
