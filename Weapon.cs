@@ -43,6 +43,7 @@ public abstract class Weapon : MonoBehaviour
         {
             if (attacking) return false;
             attacking = true;
+            clearHits();
             return true;
         }
     }
@@ -50,6 +51,7 @@ public abstract class Weapon : MonoBehaviour
     {
         lock (attackingLock)
         {
+            damage = 0f;
             attacking = false;
         }
     }

@@ -34,10 +34,10 @@ public class AttackStateSO : StateSO
         }
     }
 
-    public override StateSO checkTransitions(StateMachine stateMachine)
+    public override StateSO checkTransitions(Entity entity)
     {
-        if(stateMachine.character.attackPerformed){
-            return base.checkTransitions(stateMachine);
+        if(entity.attackPerformed){
+            return base.checkTransitions(entity);
         }
         return null;
     }

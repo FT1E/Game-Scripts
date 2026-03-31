@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class TCondition : ScriptableObject
 {
 
-    public abstract bool Check(StateMachine stateMachine);  
+    public abstract bool Check(Entity entity);  
     // argument passed for getting runtime info, like 
     //  - characterController.IsGrounded
     //  - input checking - or rather the variables which change depending on input (like player move_direction, jump_trigger, attack_trigger, etc.)

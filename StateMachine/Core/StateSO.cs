@@ -22,11 +22,11 @@ public abstract class StateSO : ScriptableObject
 
     // transitions to other states
     [SerializeField] private Transition[] transitions;
-    public virtual StateSO checkTransitions(StateMachine stateMachine)
+    public virtual StateSO checkTransitions(Entity entity)
     {
         for (int i = 0; i < transitions.Length; i++)
         {
-            if (transitions[i].CheckConditions(stateMachine))
+            if (transitions[i].CheckConditions(entity))
             {
                 return transitions[i].toState;
             }

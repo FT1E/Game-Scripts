@@ -13,12 +13,12 @@ public class Transition
     [SerializeField]
     private TCondition[] conditions;
 
-    public bool CheckConditions(StateMachine stateMachine)
+    public bool CheckConditions(Entity entity)
     {
         // if condition empty it skips loop and returns true
         foreach (TCondition condition in conditions)
         {
-            if(!condition.Check(stateMachine)) return false;
+            if(!condition.Check(entity)) return false;
         }
         return true;
     }

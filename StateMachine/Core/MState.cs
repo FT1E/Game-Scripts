@@ -3,41 +3,26 @@ using UnityEngine;
 public abstract class MState
 {
     public string name = "State class";
-    
-    private Object enterLock = new Object();
-    private Object updateLock = new Object();
-    private Object exitLock = new Object();
 
 
     // passing the StateMachine using as argument to get any components if needed
-    public void OnEnter(StateMachine stateMachine) {
+    public virtual void OnEnter(Entity entity) {
         // Debug.Log($"state <{name}> - on enter");
-        lock (enterLock)
-        {
-            onEnter(stateMachine);
-        }
+        onEnter(entity);
     }
 
-    public void OnUpdate(StateMachine stateMachine)
+    public virtual void OnUpdate(Entity entity)
     {
-        // Debug.Log($"state <{name}> - on update");
-        lock (updateLock)
-        {
-            onUpdate(stateMachine);
-        }
+        onUpdate(entity);
     }
 
-    public void OnExit(StateMachine stateMachine)
+    public virtual void OnExit(Entity entity)
     {
-        // Debug.Log($"state <{name}> - on exit");
-        lock(exitLock)
-        {
-            onExit(stateMachine);
-        }
+        onExit(entity);
     }
 
-    protected abstract void onEnter(StateMachine stateMachine);
-    protected abstract void onUpdate(StateMachine stateMachine);
-    protected abstract void onExit(StateMachine stateMachine);
+    protected abstract void onEnter(Entity entity);
+    protected abstract void onUpdate(Entity entity);
+    protected abstract void onExit(Entity entity);
 
 }

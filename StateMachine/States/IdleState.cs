@@ -7,8 +7,8 @@ public class IdleState : MState
         name = "Idle State";
     }
 
-    protected override void onEnter(StateMachine stateMachine){}
-    protected override void onUpdate(StateMachine stateMachine){}
-    protected override void onExit(StateMachine stateMachine){}
+    protected override void onEnter(Entity entity){}
+    protected override void onUpdate(Entity entity){}
+    protected override void onExit(Entity entity){}
     
 }

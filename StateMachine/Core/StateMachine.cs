@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+[Serializable]
+public class StateMachine 
 {
     // anything using it NEEDS TO SPECIFY initialState
     // probably will make it so that it's an SO (ScriptableObject)
@@ -8,29 +10,26 @@ public class StateMachine : MonoBehaviour
     // the transitions are stored in the state where they originate from
 
 
-    [Tooltip("You need to specify initial state")]
-    [SerializeField] 
+    
     private StateSO initial = default;
 
     private StateSO current;
     private StateSO next;
 
-    private Character _character;
-    public Character character { get { return _character; } }
-
-    private void Awake() {
-        _character = GetComponent<Character>();
+    public StateMachine(StateSO initial)
+    {
+        this.initial = initial;
+        current = initial;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void SetState(StateSO stateSO)
     {
-        current = initial;
-        current.state.OnEnter(this);
+        current = stateSO;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update(Entity entity)
     {
         // todo bug fix - set up locks for getting each state, acquire lock at start of update, and release it at end
         // todo - also state onEnter, onUpdate, onExit - at beginning they get components from this/stateMachine argument
@@ -39,18 +38,18 @@ public class StateMachine : MonoBehaviour
         // Debug.Log($"State name : {current.state.name}");
         // transitions should be ordered by priority
         // check for transitions 
-        next = current.checkTransitions(this);
+        next = current.checkTransitions(entity);
         if (next == null)
         {
             // if none found do OnUpdate
-            current.state.OnUpdate(this);
+            current.state.OnUpdate(entity);
         }
         else {
             // else do OnExit(), transition then OnEnter for new state
-            current.state.OnExit(this);
+            current.state.OnExit(entity);
             current = next;
             next = null;
-            current.state.OnEnter(this);
+            current.state.OnEnter(entity);
         }
 
     }

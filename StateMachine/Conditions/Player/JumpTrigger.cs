@@ -4,8 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "JumpTrigger", menuName = "State Machine/Conditions/Jump Triggered")]
 public class JumpTrigger : TCondition
 {
-    public override bool Check(StateMachine stateMachine)
+    public override bool Check(Entity entity)
     {
-        return stateMachine.GetComponent<Character>().jumpTrigger;
+        if (entity.GetPlayer() is Player p)
+        {
+            return p.jumpTrigger;
+        }
+        return false;
     }
 }

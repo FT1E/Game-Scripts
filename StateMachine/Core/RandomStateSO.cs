@@ -30,7 +30,7 @@ public class RandomStateSO : StateSO
     }
 
     // empty conditions
-    public override StateSO checkTransitions(StateMachine stateMachine)
+    public override StateSO checkTransitions(Entity entity)
     {
         return states[random.Next(states.Length)];
     }
