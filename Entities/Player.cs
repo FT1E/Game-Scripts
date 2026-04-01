@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
 
-    private Entity playerEntity; 
+    [SerializeField]
+    private PlayerInfo playerInfo;
 
     // todo - add state machine after you modify it so it's non-MonoBehaviour
     //  * need to work out how to do transitions in the modified version
@@ -127,7 +128,7 @@ public class Player : MonoBehaviour
 
     public void DisableWeaponCollision()
     {
-        playerEntity.attackPerformed = true;
+        attackPerformed = true;
         attackTrigger = false;      // consume input
         animator.SetBool("Attack1", false);
         Debug.Log("Weapon collision disabled");
@@ -143,21 +144,21 @@ public class Player : MonoBehaviour
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        playerEntity = new Entity();
-        playerEntity.SetPlayer(this);
         stateMachine = new StateMachine(initialState);
     }
 
     void Update()
     {
-        playerEntity.SetGrounded(characterController.isGrounded);
+        _isGrounded = characterController.isGrounded;
 
-        playerEntity.ApplyGravity();
-        if (MoveDirection == Vector2.zero) playerEntity.ApplyDragOnVelocityVector();
+        MyPhysics.ApplyGravity(this);
+        if (MoveDirection == Vector2.zero) MyPhysics.ApplyDragOnVelocityVector(this);
+        // todo - above isn't really enough, need to do something like maybe if it's not in move state then always apply drag
 
-        // todo - a variable for when to apply drag on XZ, so it doesn't negate the player controlled movement
-        stateMachine.Update(playerEntity);
-        characterController.Move(playerEntity.velocityVector * Time.deltaTime);
+        stateMachine.Update(this);
+        characterController.Move(velocityVector * Time.deltaTime);
+
+        playerInfo.SetPosition(transform.position);
     }
 
 }

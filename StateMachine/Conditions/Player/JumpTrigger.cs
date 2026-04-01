@@ -6,7 +6,7 @@ public class JumpTrigger : TCondition
 {
     public override bool Check(Entity entity)
     {
-        if (entity.GetPlayer() is Player p)
+        if (entity is Player p)
         {
             return p.jumpTrigger;
         }

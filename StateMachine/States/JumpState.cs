@@ -18,7 +18,7 @@ public class JumpState : MState
         entity.velocityVector.y += jumpPower;
         
         // consume jump trigger input
-        if (entity.GetPlayer() is Player p)
+        if (entity is Player p)
         {
             p.jumpTrigger = false;
         }

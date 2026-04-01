@@ -30,11 +30,12 @@ public class MoveState : MState
     }
     protected override void onExit(Entity entity)
     {
+        MyPhysics.ApplyDragOnVelocityVector(entity);
     }
 
     protected override void onUpdate(Entity entity)
     {
-        if (entity.GetPlayer() is not Player player) return; 
+        if (entity is not Player player) return; 
         if (player.MoveDirection == Vector2.zero) return;
         
         CalculateXZMove(player.isRunning, player.MoveDirection, entity);
@@ -45,10 +46,10 @@ public class MoveState : MState
     private void CalculateXZMove(bool isRunning, Vector2 moveDirection, Entity entity) {
         // todo - instant deceleration if player holds CTRL or something
 
-        float currentSpeed = entity.GetCurrentSpeed();
+        float currentSpeed = MyPhysics.GetCurrentSpeed(entity);
         if (currentSpeed > maxSpeed + 1)
         {
-            entity.ApplyDragOnVelocityVector();
+            MyPhysics.ApplyDragOnVelocityVector(entity);
             return;
         }
         // else if no force has been applied or if it has been made smaller already just set new speed

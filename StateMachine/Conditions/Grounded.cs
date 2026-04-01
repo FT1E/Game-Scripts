@@ -6,6 +6,6 @@ class Grounded : TCondition
 {
     public override bool Check(Entity entity)
     {
-        return entity.Grounded();
+        return entity.isGrounded;
     }
 }

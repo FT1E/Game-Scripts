@@ -28,7 +28,7 @@ public class AttackState : MState
 
     protected override void onEnter(Entity entity)
     {
-        if(entity.GetPlayer() is not Player player) return;
+        if(entity is not Player player) return;
 
         // player.attackTrigger = false;    // consume the input
         // * input is consumed later in player
