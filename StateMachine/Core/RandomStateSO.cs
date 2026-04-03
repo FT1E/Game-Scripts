@@ -6,7 +6,7 @@ using UnityEngine;
 // like for example JumpState, just set jump -> idle -> in-airMove (or just stay in idle if grounded)
 // basically like a central state connected to (almost) every other state
 
-[CreateAssetMenu(fileName = "RandomStateSO", menuName = "Scriptable Objects/State Machine/States/Random State Container")]
+[CreateAssetMenu(fileName = "RandomStateSO", menuName = "State Machine/States/Random State Container")]
 public class RandomStateSO : StateSO
 {
     // * Note: transitions is kinda useless here, so don't add anything to it

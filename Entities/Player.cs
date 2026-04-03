@@ -42,16 +42,7 @@ public class Player : Entity
     // end Input variables
 
 
-    // Weapon script variable
-    [SerializeField]
-    private Weapon _weapon = default;
-    public Weapon weapon { get{return _weapon; }}
-    [SerializeField]
-    private AttackAnimationEvent attackAnimation;
-
     private CharacterController characterController;
-    [SerializeField] private Animator _animator;
-    public Animator animator { get {return _animator;}}
 
     // Input actions system stuff
      private void OnEnable()
@@ -66,9 +57,6 @@ public class Player : Entity
         _inputReader.EnableGameplay();
 
 
-        attackAnimation.WindUpEnd += EnableWeaponCollision;
-        attackAnimation.WindDownStart += DisableWeaponCollision;
-        attackAnimation.End += SetAnimBoolFalse;
 
     }
 
@@ -84,9 +72,6 @@ public class Player : Entity
         _inputReader.DisableInputSystem();
 
         
-        attackAnimation.WindUpEnd -= EnableWeaponCollision;
-        attackAnimation.WindDownStart -= DisableWeaponCollision;
-        attackAnimation.End -= SetAnimBoolFalse;
     }
 
     // below methods attached to unity input actions system
@@ -120,19 +105,12 @@ public class Player : Entity
     // end Input actions system stuff
 
     // managing weapon attack collisions
-    public void EnableWeaponCollision()
-    {
-        Debug.Log("Weapon collision enabled");
-        weapon.setAttackingTrue();
-    }
+    
 
-    public void DisableWeaponCollision()
+    public override void DisableWeaponCollision(string animatorParam)
     {
-        attackPerformed = true;
         attackTrigger = false;      // consume input
-        animator.SetBool("Attack1", false);
-        Debug.Log("Weapon collision disabled");
-        weapon.setAttackingFalse();
+        base.DisableWeaponCollision(animatorParam);
     }
     public void SetAnimBoolFalse()
     {
@@ -145,6 +123,7 @@ public class Player : Entity
     {
         characterController = GetComponent<CharacterController>();
         stateMachine = new StateMachine(initialState);
+        weapon.hitLayer = 7;
     }
 
     void Update()

@@ -4,11 +4,10 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // inheriting classes just set the attackDamage and attackAnimationLength arrays
-public abstract class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     private bool attacking = false; // 
     // whether the weapong is currently in attacking animation or not
-    private readonly Object attackingLock = new Object();
 
     private float _damage;
     public float damage { 
@@ -16,44 +15,33 @@ public abstract class Weapon : MonoBehaviour
         set { _damage = (value >= 0) ? value : 0; } 
         }
 
-    private Dictionary<int, int> hitObjectsIds = new Dictionary<int, int>();    
+    private HashSet<int> hitObjectsIds = new HashSet<int>();    
     // ids of objects hit during an attack animation,
     // reset to empty each time a new attack animation is started
-    
-
-
-    public void Attack(int attack, Animator animator)
-    {
-        
-    }
-    
-
     // so dmg isn't dealt twice (or many more times)
     // * also might be able to use this to control
     // * in case I do want dmg to be dealt multiple times during the same attack
+
+    public int hitLayer;
+    // player wants to attack enemy
+    // enemy wants to attack player
+    // so a variable to do less checking
+    // only set once
+
     public void clearHits()
     {
         hitObjectsIds.Clear();
     }
 
 
-    public bool setAttackingTrue()
+    public void setAttackingTrue()
     {
-        lock (attackingLock)
-        {
-            if (attacking) return false;
-            attacking = true;
-            clearHits();
-            return true;
-        }
+        attacking = true;
+        clearHits();
     }
     public void setAttackingFalse()
     {
-        lock (attackingLock)
-        {
-            damage = 0f;
-            attacking = false;
-        }
+        attacking = false;
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -70,18 +58,18 @@ public abstract class Weapon : MonoBehaviour
     private void onHit(GameObject hit)
     {
         if (!attacking) return;
-        if (hit.layer != 7) return;
+        if (hit.layer != hitLayer) return;
 
         // check if the enemy was already hit by this attack
         int key = hit.GetInstanceID();
-        if (hitObjectsIds.ContainsKey(key)) return;
+        if (hitObjectsIds.Contains(key)) return;
 
         // if not
         // add it to hitObjects list - so dmg isn't dealt twice
-        hitObjectsIds.Add(key, key);
+        hitObjectsIds.Add(key);
 
         // deal damage
-        hit.GetComponent<HealthController>().DealDamage(damage);
+        hit.GetComponent<Entity>().DealDamage(damage);
 
     }
 }

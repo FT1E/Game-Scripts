@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AttackAnimationEvent : MonoBehaviour
+public class CombatAnimationEvents : MonoBehaviour
 {
     public event UnityAction WindUpEnd;
-    public event UnityAction WindDownStart;
+    public event UnityAction<string> WindDownStart;
     public event UnityAction End;
     
 
@@ -13,9 +13,9 @@ public class AttackAnimationEvent : MonoBehaviour
         WindUpEnd?.Invoke();
     }
 
-    public void WindDown()
+    public void WindDown(string animatorParam)
     {
-        WindDownStart?.Invoke();
+        WindDownStart?.Invoke(animatorParam);
     }
     public void AnimationEnd()
     {

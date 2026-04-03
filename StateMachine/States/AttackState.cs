@@ -10,7 +10,6 @@ public class AttackState : MState
     private float damage;
 
     // animation data
-    private float clipLength;
     private String animatorParam;    
     // * will use a bool animator param for now - might change it to trigger later
     // * above is just the name of the parameter
@@ -18,33 +17,28 @@ public class AttackState : MState
     // end animation data
 
 
-    public AttackState(float damage, float clipLength, String animatorParam)
+    public AttackState(float damage, String animatorParam)
     {
         this.name = "Attack State";
         this.damage = damage;
-        this.clipLength = clipLength;
         this.animatorParam = animatorParam;
     }
 
     protected override void onEnter(Entity entity)
     {
-        if(entity is not Player player) return;
-
         // player.attackTrigger = false;    // consume the input
-        // * input is consumed later in player
+        // * input is consumed later in attack animation event for player
+        // enemy doesn't have an input, just tries to attack when it gets close to player
 
         // base.OnEnter(stateMachine);
         entity.attackPerformed = false;
-        player.weapon.damage = damage;
-        player.animator.SetBool(animatorParam, true);
+        entity.weapon.damage = damage;
+        entity.animator.SetBool(animatorParam, true);
 
     }
 
 
-    protected override void onUpdate(Entity entity)
-    {
-        
-    }
+    protected override void onUpdate(Entity entity){}
     protected override void onExit(Entity entity){}
 
 

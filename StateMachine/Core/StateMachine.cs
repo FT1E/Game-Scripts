@@ -51,6 +51,10 @@ public class StateMachine
             next = null;
             current.state.OnEnter(entity);
         }
-
+    }
+    // todo - delete this waaay later at the end
+    public void PrintStateName()
+    {
+        Debug.Log(current.state.name);
     }
 }

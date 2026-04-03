@@ -1,16 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : Entity
+public class Enemy : NPCEntity
 {
-    private NavMeshAgent _nmAgent;
-    public NavMeshAgent nmAgent { get{return _nmAgent;} }
 
-    public bool manualMove;
+    public EnemyManager enemyManager;
+    public StateMachine stateMachine;
 
     void Awake()
     {
         _nmAgent = GetComponent<NavMeshAgent>();
+        weapon.hitLayer = 6;
     }
+
 
 }

@@ -16,12 +16,21 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     private List<Enemy> activeEnemies;
 
+    [SerializeField]
+    private StateSO initialState;
+    // todo - dictionary of initial states for different types of mob enemies
+    // todo - so I can reuse this enemy manager to hold different types of mob enemies
+
 
     void Awake()
     {
+        Enemy enemy;
         foreach(Transform child in transform)
         {
-            activeEnemies.Add(child.GetComponent<Enemy>());
+            enemy = child.GetComponent<Enemy>();
+            enemy.enemyManager = this;
+            enemy.stateMachine = new StateMachine(initialState);
+            activeEnemies.Add(enemy);
         }
     }
 
@@ -39,22 +48,12 @@ public class EnemyManager : MonoBehaviour {
 
     void Update()
     {
+        // todo - think I'll use a state machine after all, makes the code here less cluttered
+        // todo - over for some special cases
         foreach(Enemy enemy in activeEnemies)
         {
-            if(Vector3.Distance(enemy.transform.position, playerInfo.position) < 2f)
-            {
-                // disable agent
-                enemy.nmAgent.isStopped = true;
-                // start attack
-
-            }
-            else
-            {
-                // enable agent
-                enemy.nmAgent.isStopped = false;
-                // follow player
-                enemy.nmAgent.destination = playerInfo.position;
-            }
+            enemy.stateMachine.Update(enemy);
+            // enemy.stateMachine.PrintStateName();
         }
     }
 
