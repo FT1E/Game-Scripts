@@ -128,7 +128,7 @@ public class Player : Entity
 
     void Update()
     {
-        _isGrounded = characterController.isGrounded;
+        isGrounded = characterController.isGrounded;
 
         MyPhysics.ApplyGravity(this);
         if (MoveDirection == Vector2.zero) MyPhysics.ApplyDragOnVelocityVector(this);

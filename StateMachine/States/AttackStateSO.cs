@@ -11,12 +11,15 @@ public class AttackStateSO : StateSO
     [SerializeField]
     private String animatorParameter;
 
+    [SerializeField]
+    private float knockbackForce = 0f;
+
     public void OnEnable()
     {
         
         if (_state == null)
         {
-            _state = new AttackState(damage, animatorParameter);
+            _state = new AttackState(damage, animatorParameter, knockbackForce);
         }
     }
 

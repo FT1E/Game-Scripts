@@ -8,6 +8,7 @@ public class NPCEntity : Entity
 
     public bool manualMove;
 
+
     void Awake()
     {
         _nmAgent = GetComponent<NavMeshAgent>();

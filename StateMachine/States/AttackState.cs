@@ -9,6 +9,9 @@ public class AttackState : MState
     // damage
     private float damage;
 
+    // knockback force
+    private float knockbackForce;
+
     // animation data
     private String animatorParam;    
     // * will use a bool animator param for now - might change it to trigger later
@@ -17,11 +20,12 @@ public class AttackState : MState
     // end animation data
 
 
-    public AttackState(float damage, String animatorParam)
+    public AttackState(float damage, String animatorParam, float knockbackForce = 0f)
     {
         this.name = "Attack State";
         this.damage = damage;
         this.animatorParam = animatorParam;
+        this.knockbackForce = knockbackForce;
     }
 
     protected override void onEnter(Entity entity)
@@ -33,13 +37,19 @@ public class AttackState : MState
         // base.OnEnter(stateMachine);
         entity.attackPerformed = false;
         entity.weapon.damage = damage;
+        entity.weapon.knockbackForce = knockbackForce;
         entity.animator.SetBool(animatorParam, true);
 
     }
 
 
     protected override void onUpdate(Entity entity){}
-    protected override void onExit(Entity entity){}
+    protected override void onExit(Entity entity)
+    {
+        // * for safety
+        entity.weapon.damage = 0f;
+        entity.weapon.knockbackForce = 0f;
+    }
 
 
 }

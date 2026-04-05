@@ -15,6 +15,12 @@ public class Weapon : MonoBehaviour
         set { _damage = (value >= 0) ? value : 0; } 
         }
 
+    private float _knockbackForce;
+    public float knockbackForce { 
+        get { return _knockbackForce; }
+        set { _knockbackForce = (value >= 0) ? value : 0; } 
+        }
+
     private HashSet<int> hitObjectsIds = new HashSet<int>();    
     // ids of objects hit during an attack animation,
     // reset to empty each time a new attack animation is started
@@ -69,7 +75,8 @@ public class Weapon : MonoBehaviour
         hitObjectsIds.Add(key);
 
         // deal damage
-        hit.GetComponent<Entity>().DealDamage(damage);
-
+        Entity entity = hit.GetComponent<Entity>();
+        entity.DealDamage(damage);
+        entity.knockbackForce = knockbackForce;
     }
 }

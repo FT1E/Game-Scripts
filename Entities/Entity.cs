@@ -15,12 +15,14 @@ public class Entity : MonoBehaviour
     // Weapon script variable
     [SerializeField]
     public Weapon weapon = default;
+    
+    public float knockbackForce;
 
     public void DealDamage(float damage)
     {
-        Debug.Log(this.name + " attacked");
-        Debug.Log("Health before: " + _health);
-        Debug.Log("Damage of attack: " + damage);
+        // Debug.Log(this.name + " attacked");
+        // Debug.Log("Health before: " + _health);
+        // Debug.Log("Damage of attack: " + damage);
         if (damage >= _health) 
         { 
             _health = 0;
@@ -30,16 +32,14 @@ public class Entity : MonoBehaviour
         {
             _health -= damage;
         }
-        Debug.Log("Health after: " + _health);
+        // Debug.Log("Health after: " + _health);
     }
 
     [SerializeField] 
     protected Animator _animator;
     public Animator animator { get {return _animator;}}
 
-    protected bool _isGrounded = true;
-    public bool isGrounded { get {return _isGrounded; }}
-    
+    public bool isGrounded;
 
     public bool attackPerformed = false;
 
@@ -47,7 +47,7 @@ public class Entity : MonoBehaviour
     public virtual void EnableWeaponCollision()
     {
         weapon.setAttackingTrue();
-        Debug.Log("Weapon collision enabled");
+        // Debug.Log("Weapon collision enabled");
     }
 
     // todo - argument animator param to set false - more modular
@@ -56,6 +56,6 @@ public class Entity : MonoBehaviour
         attackPerformed = true;
         animator.SetBool(animatorParam, false);
         weapon.setAttackingFalse();
-        Debug.Log("Weapon collision disabled");
+        // Debug.Log("Weapon collision disabled");
     }
 }
