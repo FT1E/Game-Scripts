@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 // for now do nothing
@@ -18,21 +17,18 @@ public class RandomStateSO : StateSO
     [SerializeField]
     private StateSO[] states;
 
-    // temp
-    private System.Random random;
     
     
     
     void OnEnable()
     {
-        if(random == null) random = new System.Random();
         if(_state == null) _state = new IdleState();    // so it's not null
     }
 
     // empty conditions
     public override StateSO checkTransitions(Entity entity)
     {
-        return states[random.Next(states.Length)];
+        return states[Random.Range(0, states.Length)];
     }
 
 }

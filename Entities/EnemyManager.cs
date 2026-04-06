@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour {
         // todo - over for some special cases
         foreach(Enemy enemy in activeEnemies)
         {
-            enemy.isGrounded = Physics.Raycast(enemy.transform.position, Vector3.down, 0.5f);
+            enemy.isGrounded = Physics.Raycast(enemy.transform.position, Vector3.down, enemy.nmAgent.baseOffset + 0.3f);
             enemy.stateMachine.Update(enemy);
 
             

@@ -20,7 +20,9 @@ public class NPCForceMoveState : MState
         forceVector.y = 0f;
         forceVector = forceVector.normalized;
         npc.velocityVector = (forceVector + Vector3.up).normalized * npc.knockbackForce;
-        npc.knockbackForce = 0f;
+        npc.knockbackForce = 0f;    // to avoid unneccessary stacking
+        
+        
         npc.nmAgent.enabled = false;
         npc.manualMove = true;
     }
@@ -33,11 +35,13 @@ public class NPCForceMoveState : MState
 
     protected override void onUpdate(Entity entity)
     {
-        Debug.Log("Inside update npc force move state");
-        Debug.Log(entity.velocityVector);
-
         if (entity is not NPCEntity npc) return;
         NavMeshAgent agent = npc.nmAgent;
+        npc.knockbackForce = 0f;    // to avoid unneccessary stacking
+        if (npc.isGrounded)
+        {
+            npc.velocityVector.y = 0f;
+        }
 
         entity.transform.position += npc.velocityVector * Time.deltaTime;
 

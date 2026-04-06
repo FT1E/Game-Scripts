@@ -16,7 +16,7 @@ public static class MyPhysics
         float currentSpeed = GetCurrentSpeed(entity);
         Vector3 velocityVector = entity.velocityVector;
 
-        if (currentSpeed < 1f)
+        if (currentSpeed <= 1.5f)
         {
             currentSpeed = 0f;
         }

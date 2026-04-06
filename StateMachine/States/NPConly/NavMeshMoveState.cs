@@ -14,7 +14,9 @@ public class NavMeshMoveState : MState
     protected override void onEnter(Entity entity)
     {
         if (entity is not NPCEntity npc) return;
-        npc.nmAgent.Warp(npc.transform.position);
+        // Debug.Log("Npc warp position");
+        // Debug.Log(npc.transform.position + Vector3.up * npc.nmAgent.baseOffset);
+        npc.nmAgent.Warp(npc.transform.position + Vector3.up * npc.nmAgent.baseOffset);
         npc.nmAgent.isStopped = false;
     }
 
