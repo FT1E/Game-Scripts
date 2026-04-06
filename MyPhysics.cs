@@ -37,7 +37,7 @@ public static class MyPhysics
     {
         // y coordinate
         float y = entity.velocityVector.y;
-        if (entity.isGrounded)
+        if (y < 0f && entity.isGrounded)
         {
             y = -1f;
         }
