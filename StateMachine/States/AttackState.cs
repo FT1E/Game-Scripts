@@ -77,7 +77,7 @@ public class AttackState : MState
         entity.weapon.damage = 0f;
         entity.weapon.knockbackForce = 0f;
         entity.weapon.setAttackingFalse();
-        entity.animator.SetBool(animatorParam, true);
+        entity.animator.SetBool(animatorParam, false);
     }
 
 
