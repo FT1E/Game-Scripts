@@ -58,4 +58,10 @@ public class Entity : MonoBehaviour
         weapon.setAttackingFalse();
         // Debug.Log("Weapon collision disabled");
     }
+
+    public void cancelAttack()
+    {
+        attackPerformed = true;
+        animator.SetTrigger("CancelAttack");
+    }
 }

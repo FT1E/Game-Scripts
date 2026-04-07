@@ -31,13 +31,6 @@ public class StateMachine
     // Update is called once per frame
     public void Update(Entity entity)
     {
-        // todo bug fix - set up locks for getting each state, acquire lock at start of update, and release it at end
-        // todo - also state onEnter, onUpdate, onExit - at beginning they get components from this/stateMachine argument
-        // todo - lock acquire/release is done in stateSO
-
-        // Debug.Log($"State name : {current.state.name}");
-        // transitions should be ordered by priority
-        // check for transitions 
         next = current.checkTransitions(entity);
         if (next == null)
         {
@@ -56,5 +49,16 @@ public class StateMachine
     public void PrintStateName()
     {
         Debug.Log(current.state.name);
+    }
+
+    public void Reset(Entity entity)
+    {
+        // * just set state to initial state
+        // * used for when cancelling attack animations of mobs
+        // todo - if issues arise due to runtime animations, use lock(){}
+
+
+        current.state.OnExit(entity);
+        current = initial;
     }
 }

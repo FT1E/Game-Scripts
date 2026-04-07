@@ -27,10 +27,13 @@ public class EnemyManager : MonoBehaviour {
         Enemy enemy;
         foreach(Transform child in transform)
         {
-            enemy = child.GetComponent<Enemy>();
-            enemy.enemyManager = this;
-            enemy.stateMachine = new StateMachine(initialState);
-            activeEnemies.Add(enemy);
+            if(child.gameObject.activeSelf)
+            {
+                enemy = child.GetComponent<Enemy>();
+                enemy.enemyManager = this;
+                enemy.stateMachine = new StateMachine(initialState);
+                activeEnemies.Add(enemy);
+            }
         }
     }
 

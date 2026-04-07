@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
         set { _knockbackForce = (value >= 0) ? value : 0; } 
         }
 
+    public bool cancelAttacks = false;
+
     private HashSet<int> hitObjectsIds = new HashSet<int>();    
     // ids of objects hit during an attack animation,
     // reset to empty each time a new attack animation is started
@@ -78,5 +80,8 @@ public class Weapon : MonoBehaviour
         Entity entity = hit.GetComponent<Entity>();
         entity.DealDamage(damage);
         entity.knockbackForce = knockbackForce;
+
+        if(cancelAttacks) entity.cancelAttack();
+
     }
 }

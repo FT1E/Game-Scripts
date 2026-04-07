@@ -72,8 +72,12 @@ public class AttackState : MState
     protected override void onExit(Entity entity)
     {
         // * for safety
+        // * also when attack is cancelled so these are set properly
+        entity.attackPerformed = true;
         entity.weapon.damage = 0f;
         entity.weapon.knockbackForce = 0f;
+        entity.weapon.setAttackingFalse();
+        entity.animator.SetBool(animatorParam, true);
     }
 
 
