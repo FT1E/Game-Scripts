@@ -51,6 +51,8 @@ public class Player : Entity
     
     // end Input variables
 
+    public bool attackTurn;
+
 
     private CharacterController characterController;
 

@@ -14,12 +14,15 @@ public class AttackStateSO : StateSO
     [SerializeField]
     private float knockbackForce = 0f;
 
+    [SerializeField]
+    private float rotationSpeed=540f;
+
     public void OnEnable()
     {
         
         if (_state == null)
         {
-            _state = new AttackState(damage, animatorParameter, knockbackForce);
+            _state = new AttackState(damage, animatorParameter, knockbackForce, rotationSpeed);
         }
     }
 
