@@ -33,6 +33,16 @@ public class Player : Entity
                 _moveDirection.x * Mathf.Sin(angle) + _moveDirection.y * Mathf.Cos(angle)
             );
         }
+    }
+    public Vector2 ForwardDirection {
+        get
+        {
+            float angle = - Mathf.Deg2Rad * cameraTransform.rotation.eulerAngles.y; 
+            return new Vector2(
+                -Mathf.Sin(angle),
+                Mathf.Cos(angle)
+            );
+        }
     }    
     // end input move direction
     public bool isRunning;

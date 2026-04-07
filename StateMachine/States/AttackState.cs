@@ -40,6 +40,15 @@ public class AttackState : MState
         entity.weapon.knockbackForce = knockbackForce;
         entity.animator.SetBool(animatorParam, true);
 
+        // rotate the player character according to camera POV
+        if(entity is Player p)
+        {
+            // todo - maybe an intermediate state where player rotates gradually not instantly
+            // todo - but can't be too long (like it should be a sceond at most, maybe half a second)
+            Vector2 direction = p.ForwardDirection;
+            p.transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.y));
+        }
+
     }
 
 
