@@ -113,10 +113,19 @@ public class EnemyManager : MonoBehaviour {
         {
             if(DeathCheck(enemy)) return;
 
-            enemy.isGrounded = Physics.Raycast(enemy.transform.position, Vector3.down, enemy.nmAgent.baseOffset + 0.3f);
+            // doing below for ground checking - and also setting y velocity, 
+            // so it doesn't go through the ground 
+            // and so it doesn't speed up - slow down - speed up - slow down 
+            // - which is what would happen if i just set isGrounded and not affect velocityVector.y 
+            Ray ray = new Ray(enemy.transform.position, Vector3.down);
+            if(enemy.isGrounded = Physics.Raycast( ray, out RaycastHit hitinfo, enemy.nmAgent.baseOffset - enemy.velocityVector.y * Time.deltaTime))
+            {
+                enemy.velocityVector.y = -hitinfo.distance;
+            }
+
             enemy.stateMachine.Update(enemy);
 
-            enemy.stateMachine.PrintStateName($"Enemy {i++} state:");
+            // enemy.stateMachine.PrintStateName($"Enemy {i++} state:");
         }
     }
 

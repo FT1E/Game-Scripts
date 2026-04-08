@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class MyPhysics
 {
-    private readonly static float decellaration = 10f, gravity = -9.81f, gravityMultiplier = 1f, maxGravity = -70f;
+    public readonly static float decellaration = 10f, gravity = -9.81f, gravityMultiplier = 1f, maxGravity = -70f;
     public static void ApplyDragOnVelocityVector(Entity entity)
     {
         // basically just lowers the magnitude of the velocity vector on xz coordinates, and apply gravity on y coordinate
