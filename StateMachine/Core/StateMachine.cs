@@ -46,9 +46,9 @@ public class StateMachine
         }
     }
     // todo - delete this waaay later at the end
-    public void PrintStateName()
+    public void PrintStateName(String extra = "")
     {
-        Debug.Log(current.state.name);
+        Debug.Log(extra + current.state.name);
     }
 
     public void Reset(Entity entity)

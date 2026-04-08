@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -10,6 +11,9 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected float _health;
     public float Health { get {return _health; }}
+
+    [SerializeField]
+    public readonly float maxHealth = 100f;
 
     
     // Weapon script variable
@@ -34,6 +38,10 @@ public class Entity : MonoBehaviour
         }
         // Debug.Log("Health after: " + _health);
     }
+    public void ResetHP() {
+        _health = maxHealth;
+    }
+
 
     [SerializeField] 
     protected Animator _animator;
