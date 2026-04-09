@@ -36,7 +36,6 @@ public class NPCForceMoveState : MState
     protected override void onUpdate(Entity entity)
     {
         if (entity is not NPCEntity npc) return;
-        NavMeshAgent agent = npc.nmAgent;
         npc.knockbackForce = 0f;    // to avoid unneccessary stacking
 
         

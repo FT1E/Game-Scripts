@@ -60,5 +60,6 @@ public class StateMachine
 
         current.state.OnExit(entity);
         current = initial;
+        current.state.OnEnter(entity);
     }
 }

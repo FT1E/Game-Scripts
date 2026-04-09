@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     private List<Enemy> activeEnemies;
     
-    // todo - object pooling
+    //  - object pooling
     private Stack<Enemy> inactiveEnemies;
 
     [SerializeField]
@@ -55,8 +55,6 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
-    // todo - spawning
-    // todo - despawning/killing enemies
     // todo - possible issue - spawning on a non-NavMeshSurface area
     public void SpawnEnemy(int count)
     {
