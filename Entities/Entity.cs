@@ -71,5 +71,8 @@ public class Entity : MonoBehaviour
     {
         attackPerformed = true;
         animator.SetTrigger("CancelAttack");
+        weapon.damage = 0f;
+        weapon.knockbackForce = 0f;
+        weapon.setAttackingFalse();
     }
 }

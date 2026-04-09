@@ -17,16 +17,21 @@ public class AttackState : MState
     
     // end animation data
 
-
+    // * how fast does the player's character rotate forward in the camera's POV - degrees per second, should be pretty high so attack isn't delayed for much
     private float rotationSpeed;
 
-    public AttackState(float damage, string animatorParam, float knockbackForce = 0f, float rotationSpeed=360f)
+    // * whether the character can move during attack or not
+    // ? if this is allowed, then player won't rotate, it will just attack in the direction he is facing
+    private bool moveAllowed;
+
+    public AttackState(float damage, string animatorParam, float knockbackForce = 0f, float rotationSpeed=360f, bool moveAllowed = false)
     {
         this.name = "Attack State";
         this.damage = damage;
         this.animatorParam = animatorParam;
         this.knockbackForce = knockbackForce;
         this.rotationSpeed = rotationSpeed;
+        this.moveAllowed = moveAllowed;
     }
 
     protected override void onEnter(Entity entity)
@@ -40,7 +45,7 @@ public class AttackState : MState
         // gradually, but quickly, rotate player in forward direction relative to camera
         
         // base.OnEnter(stateMachine);
-        entity.attackPerformed = false;
+        entity.attackPerformed = moveAllowed;
         entity.weapon.damage = damage;
         entity.weapon.knockbackForce = knockbackForce;
         entity.animator.SetBool(animatorParam, true);
@@ -73,10 +78,6 @@ public class AttackState : MState
     {
         // * for safety
         // * also when attack is cancelled so these are set properly
-        entity.attackPerformed = true;
-        entity.weapon.damage = 0f;
-        entity.weapon.knockbackForce = 0f;
-        entity.weapon.setAttackingFalse();
         entity.animator.SetBool(animatorParam, false);
     }
 

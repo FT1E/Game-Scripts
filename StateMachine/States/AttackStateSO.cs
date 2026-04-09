@@ -17,12 +17,15 @@ public class AttackStateSO : StateSO
     [SerializeField]
     private float rotationSpeed=540f;
 
+    [SerializeField]
+    private bool moveAllowed = false;
+
     public void OnEnable()
     {
         
         if (_state == null)
         {
-            _state = new AttackState(damage, animatorParameter, knockbackForce, rotationSpeed);
+            _state = new AttackState(damage, animatorParameter, knockbackForce, rotationSpeed, moveAllowed);
         }
     }
 
