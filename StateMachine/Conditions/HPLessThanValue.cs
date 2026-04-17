@@ -5,7 +5,7 @@ using UnityEngine;
 class HPLessThanValue : TCondition
 {
     [SerializeField]
-    private readonly float maxTrueValue = 0f;
+    private float maxTrueValue = 0f;
 
     public override bool Check(Entity entity)
     {

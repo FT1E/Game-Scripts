@@ -58,7 +58,7 @@ public class Entity : MonoBehaviour
         // Debug.Log("Weapon collision enabled");
     }
 
-    // todo - argument animator param to set false - more modular
+    // argument animator param to set false - more modular
     public virtual void DisableWeaponCollision(string animatorParam)
     {
         attackPerformed = true;
