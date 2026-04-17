@@ -116,7 +116,7 @@ public class EnemyManager : MonoBehaviour {
             // and so it doesn't speed up - slow down - speed up - slow down 
             // - which is what would happen if i just set isGrounded and not affect velocityVector.y 
             Ray ray = new Ray(enemy.transform.position, Vector3.down);
-            if(enemy.isGrounded = Physics.Raycast( ray, out RaycastHit hitinfo, enemy.nmAgent.baseOffset - enemy.velocityVector.y * Time.deltaTime))
+            if(enemy.isGrounded = Physics.Raycast( ray, out RaycastHit hitinfo, 0.01f + enemy.nmAgent.baseOffset - enemy.velocityVector.y * Time.deltaTime))
             {
                 enemy.velocityVector.y = -hitinfo.distance;
             }

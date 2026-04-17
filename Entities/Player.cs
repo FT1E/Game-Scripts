@@ -135,7 +135,7 @@ public class Player : Entity
     {
         characterController = GetComponent<CharacterController>();
         stateMachine = new StateMachine(initialState);
-        weapon.hitLayer = 7;
+        weapon.SetHitLayer(7);
         weapon.cancelAttacks = true;
     }
 

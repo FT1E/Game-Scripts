@@ -46,14 +46,9 @@ public class AttackState : MState
         
         // base.OnEnter(stateMachine);
         entity.attackPerformed = moveAllowed;
-        entity.weapon.damage = damage;
-        entity.weapon.knockbackForce = knockbackForce;
-        entity.animator.SetBool(animatorParam, true);
-
-        
-
+        setValues(entity, damage, knockbackForce, animatorParam);
     }
-
+    
 
     protected override void onUpdate(Entity entity)
     {
@@ -67,9 +62,7 @@ public class AttackState : MState
         if (Quaternion.Angle(lookRotation, p.transform.rotation) < 1)
         {
             entity.attackPerformed = false;
-            entity.weapon.damage = damage;
-            entity.weapon.knockbackForce = knockbackForce;
-            entity.animator.SetBool(animatorParam, true);
+            setValues(entity, damage, knockbackForce, animatorParam);
             p.attackTurn = true;
         }
 
@@ -79,6 +72,13 @@ public class AttackState : MState
         // * for safety
         // * also when attack is cancelled so these are set properly
         entity.animator.SetBool(animatorParam, false);
+    }
+    
+    private void setValues(Entity entity, float damage, float knockbackForce, string animatorParam)
+    {
+        entity.weapon.SetDamage(damage);
+        entity.weapon.SetKnockback(knockbackForce);
+        entity.animator.SetBool(animatorParam, true);
     }
 
 

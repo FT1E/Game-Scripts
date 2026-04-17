@@ -10,7 +10,7 @@ public class Enemy : NPCEntity
     void Awake()
     {
         _nmAgent = GetComponent<NavMeshAgent>();
-        weapon.hitLayer = 6;
+        weapon.SetHitLayer(6);
     }
 
 

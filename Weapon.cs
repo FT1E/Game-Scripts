@@ -12,14 +12,14 @@ public class Weapon : MonoBehaviour
     private float _damage;
     public float damage { 
         get { return _damage; }
-        set { _damage = (value >= 0) ? value : 0; } 
-        }
+    }
+    
 
     private float _knockbackForce;
     public float knockbackForce { 
         get { return _knockbackForce; }
-        set { _knockbackForce = (value >= 0) ? value : 0; } 
-        }
+    }
+    
 
     public bool cancelAttacks = false;
 
@@ -30,24 +30,37 @@ public class Weapon : MonoBehaviour
     // * also might be able to use this to control
     // * in case I do want dmg to be dealt multiple times during the same attack
 
-    public int hitLayer;
+    private int hitLayer;
     // player wants to attack enemy
     // enemy wants to attack player
     // so a variable to do less checking
     // only set once
 
-    public void clearHits()
+    public virtual void SetHitLayer(int layer)
+    {
+        hitLayer = layer;
+    }
+    public virtual void SetDamage(float damage)
+    {
+        _damage = damage;
+    }
+    public virtual void SetKnockback(float knockbackForce)
+    {
+        _knockbackForce = knockbackForce;
+    }
+
+    public virtual void clearHits()
     {
         hitObjectsIds.Clear();
     }
 
 
-    public void setAttackingTrue()
+    public virtual void setAttackingTrue()
     {
         attacking = true;
         clearHits();
     }
-    public void setAttackingFalse()
+    public virtual void setAttackingFalse()
     {
         attacking = false;
     }
