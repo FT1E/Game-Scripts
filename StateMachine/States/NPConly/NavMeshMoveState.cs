@@ -38,6 +38,8 @@ public class NavMeshMoveState : MState
         {
             entity.animator.SetBool(animParam, false);
         }
+        // rotate - toward player in case it tries to attack again but it hasn't rotated yet
+        npc.transform.forward = playerInfo.position - npc.transform.position;
     }
 
     protected override void onUpdate(Entity entity)
