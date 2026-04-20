@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour {
 
     [SerializeField]
-    private PlayerInfo playerInfo = default;
+    public PlayerInfo playerInfo = default;
     // above is for setting target position of NavMeshAgents
 
 

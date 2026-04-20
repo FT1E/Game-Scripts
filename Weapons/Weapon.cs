@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // inheriting classes just set the attackDamage and attackAnimationLength arrays
 public class Weapon : MonoBehaviour
 {
-    private bool attacking = false; // 
+    protected bool attacking = false; // 
     // whether the weapong is currently in attacking animation or not
 
     private float _damage;
@@ -76,7 +76,7 @@ public class Weapon : MonoBehaviour
         onHit(other.gameObject);
     }
 
-    private void onHit(GameObject hit)
+    protected virtual void onHit(GameObject hit)
     {
         if (!attacking) return;
         if (hit.layer != hitLayer) return;
