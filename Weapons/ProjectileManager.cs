@@ -13,8 +13,8 @@ public class ProjectileManager : MonoBehaviour
         foreach(Transform child in transform)
         {
             Projectile projectile = child.GetComponent<Projectile>();
-            child.gameObject.SetActive(false);
             projectile.poolManager = this;
+            child.gameObject.SetActive(false);
             disabledProjectiles.Push(projectile);
         }
     }

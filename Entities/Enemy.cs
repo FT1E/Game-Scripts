@@ -9,6 +9,9 @@ public class Enemy : NPCEntity
     [SerializeField]
     public ProjectileManager projectilePoolManager = default;
 
+    [SerializeField]
+    private Vector3 projectileSpawnOffset = default;
+
     void Awake()
     {
         _nmAgent = GetComponent<NavMeshAgent>();
@@ -22,7 +25,9 @@ public class Enemy : NPCEntity
         
         // todo - find a workaround for passing a vector3 for position delta
         // * for different type of projectile shooting animations and also for different types of projectiles
-        Vector3 spawnPosition = transform.position + new Vector3(0.328999996f,0.85799998f,1.17700005f);
+        Vector3 spawnPosition = transform.position;
+        spawnPosition += transform.rotation * projectileSpawnOffset;
+        
         Vector3 direction = enemyManager.playerInfo.position - spawnPosition;
         direction.y = 0f;
         direction = direction.normalized;
