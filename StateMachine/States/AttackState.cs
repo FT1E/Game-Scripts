@@ -45,7 +45,7 @@ public class AttackState : MState
         // gradually, but quickly, rotate player in forward direction relative to camera
         
         // base.OnEnter(stateMachine);
-        entity.attackPerformed = moveAllowed;
+        entity.attackPerformed = false;
         setValues(entity, damage, knockbackForce, animatorParam);
     }
     
