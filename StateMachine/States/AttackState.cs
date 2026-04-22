@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackState : MState
 {
-    // TODO - may add attack cancelling mechanics - or just use shorter animations
+    // TODO - may add attack cancelling mechanics for player - or just use shorter animations
 
     // damage
     private float damage;

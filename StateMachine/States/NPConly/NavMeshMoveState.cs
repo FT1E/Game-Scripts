@@ -48,9 +48,10 @@ public class NavMeshMoveState : MState
         NavMeshAgent agent = npc.nmAgent;
 
         agent.destination = playerInfo.position;
-        // agent.remainingDistance;     // todo - for distance checking might be better to use this rather than Vector3.distance, since this uses the distance on the path to walk to player
-        // agent.SetAreaCost            // todo - interesting for modifying the movement behaviour
-        // agent.Warp                   // todo
+        // todo check below attributes if needed
+        // agent.remainingDistance;     // * - for distance checking might be better to use this rather than Vector3.distance, since this uses the distance on the path to walk to player
+        // agent.SetAreaCost            // * - interesting for modifying the movement behaviour
+        // agent.Warp                   
 
     }
 }

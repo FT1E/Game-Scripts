@@ -19,7 +19,7 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     private StateSO initialState;
     // todo - dictionary of initial states for different types of mob enemies
-    // todo - so I can reuse this enemy manager to hold different types of mob enemies
+    // * - so I can reuse this enemy manager to hold different types of mob enemies
 
 
     // spawning data
@@ -66,7 +66,7 @@ public class EnemyManager : MonoBehaviour {
             Vector3 spawnPos = new Vector3(Random.Range(-1f,1f), 0f, Random.Range(-1f,1f));
             spawnPos = spawnPos.normalized * Random.Range(minSpawnDistance, maxSpawnDistance) + playerInfo.position;// around the player
 
-            // todo - if the terrain is gonna be not simple - then do some logistics to see what height should be at certain XZ coordinates
+            //* - the terrain is gonna be simple
             spawnPos.y = 1f;    // rather have them float a bit and fall down, than accidentally spawn them below ground
             
             enemy.gameObject.SetActive(true);
@@ -103,8 +103,7 @@ public class EnemyManager : MonoBehaviour {
     {
         SpawnEnemy(desiredNumberOfActiveEnemies - activeEnemies.Count);
 
-        // todo - think I'll use a state machine after all, makes the code here less cluttered
-        // todo - over for some special cases
+        // todo - group behvaiour for mobs
         Debug.Log($"Number of active enemies:{activeEnemies.Count}");
         int i = 1;
         foreach(Enemy enemy in activeEnemies)

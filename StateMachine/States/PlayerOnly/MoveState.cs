@@ -4,7 +4,6 @@ using UnityEngine;
 public class MoveState : MState
 {
 
-    // todo - don't deal with components here
 
 
     // variables for moving on xz coordinates

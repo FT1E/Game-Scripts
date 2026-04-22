@@ -10,7 +10,7 @@ public class CustomSplineGenerator : EditorWindow
 {
     // parameters 
     // spacing between knots
-    // [TODO - generalize it so user can pick along which plane the spline to be drawn (xy, xz, yz) in the future if needed]
+    // TODO - generalize it so user can pick along which plane the spline to be drawn (xy, xz, yz) in the future if needed]
     private float spacingX = 1f; 
     private float spacingZ = 1f; 
     

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Enemy : NPCEntity
 {
 
-    public EnemyManager enemyManager;   // todo - remove this if it's not used
+    public EnemyManager enemyManager;
     public StateMachine stateMachine;
 
     void Awake()

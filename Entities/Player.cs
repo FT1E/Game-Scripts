@@ -6,8 +6,6 @@ public class Player : Entity
     [SerializeField]
     private PlayerInfo playerInfo;
 
-    // todo - add state machine after you modify it so it's non-MonoBehaviour
-    //  * need to work out how to do transitions in the modified version
     [SerializeField]
     private StateSO initialState;
     private StateMachine stateMachine;
