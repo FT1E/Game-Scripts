@@ -51,7 +51,6 @@ public class AttackState : MState
                 p.attackTurn = false;
                 p.DisableTorsoLayer();
                 p.animator.SetTrigger("CancelLightAttack");
-                p.spineRig.weight = 1f; // todo - maybe do it gradually
             }
             return;
         }
@@ -72,9 +71,11 @@ public class AttackState : MState
         Vector2 dir = p.ForwardDirection;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.y));
         p.transform.rotation = Quaternion.RotateTowards(p.transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        p.spineRig.weight = Mathf.MoveTowards(p.spineRig.weight, 1f, rotationSpeed * Time.deltaTime / 360f);
         
         if (Quaternion.Angle(lookRotation, p.transform.rotation) < 1)
         {
+            p.spineRig.weight = 1f;
             entity.attackPerformed = false;
             setValues(entity, damage, knockbackForce, animatorParam);
             p.attackTurn = true;
