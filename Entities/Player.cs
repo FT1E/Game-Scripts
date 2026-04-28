@@ -4,6 +4,11 @@ public class Player : Entity
 {
 
     [SerializeField]
+    private float _maxSpeed;
+    public float MaxSpeed { get { return _maxSpeed; } }
+
+    
+    [SerializeField]
     private PlayerInfo playerInfo;
 
     [SerializeField]
@@ -15,7 +20,8 @@ public class Player : Entity
     
 
     [SerializeField]
-    private Transform cameraTransform;
+    private Transform _cameraTransform;
+    public Transform cameraTransform { get { return _cameraTransform; } }
 
     // Input variables
 
@@ -46,7 +52,7 @@ public class Player : Entity
     public bool isRunning;
     public bool jumpTrigger;
     public bool attackTrigger;
-    
+    public bool lightAttackTrigger;
     // end Input variables
 
     public bool attackTurn;
@@ -63,6 +69,7 @@ public class Player : Entity
         _inputReader.jumpStartEvent += JumpStart;
         _inputReader.jumpCancelEvent += JumpCancel;
         _inputReader.attackEvent += AttackTrigger;
+        _inputReader.lightAttackEvent += LightAttackTrigger;
 
         _inputReader.EnableGameplay();
 
@@ -78,6 +85,7 @@ public class Player : Entity
         _inputReader.jumpStartEvent -= JumpStart;
         _inputReader.jumpCancelEvent -= JumpCancel;
         _inputReader.attackEvent -= AttackTrigger;
+        _inputReader.lightAttackEvent -= LightAttackTrigger;
 
         _inputReader.DisableInputSystem();
 
@@ -112,6 +120,11 @@ public class Player : Entity
     private void AttackTrigger() {
         attackTrigger = true;
     }
+
+    private void LightAttackTrigger()
+    {
+        lightAttackTrigger = true;
+    }
     // end Input actions system stuff
 
     // managing weapon attack collisions
@@ -119,6 +132,7 @@ public class Player : Entity
 
     public override void DisableWeaponCollision(string animatorParam)
     {
+        lightAttackTrigger = false;
         attackTrigger = false;      // consume input
         base.DisableWeaponCollision(animatorParam);
     }
@@ -126,6 +140,18 @@ public class Player : Entity
     {
         animator.SetBool("Attack1", false);
     }
+
+    public void EnableTorsoLayer()
+    {
+        animator.SetLayerWeight(1, 1f);
+    }
+    public void DisableTorsoLayer()
+    {
+        // 0.001 instead of 0 so the animation is played and the event which sets the layer weight to 1 is called
+        // and small value so it doesn't override the base layer
+        animator.SetLayerWeight(1, 0.001f);
+    }
+
     // end weapon attack collisions
 
 
@@ -140,9 +166,10 @@ public class Player : Entity
     void Update()
     {
         isGrounded = characterController.isGrounded;
+        animator.SetFloat("speed", MyPhysics.GetCurrentSpeed(this) / MaxSpeed);
 
         MyPhysics.ApplyGravity(this);
-        if (MoveDirection == Vector2.zero) MyPhysics.ApplyDragOnVelocityVector(this);
+        if (MyPhysics.GetCurrentSpeed(this) > MaxSpeed) MyPhysics.ApplyDragOnVelocityVector(this);
         // todo - above isn't really enough, need to do something like maybe if it's not in move state then always apply drag
 
         stateMachine.Update(this);

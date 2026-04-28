@@ -1,4 +1,3 @@
-using System.Net;
 using UnityEngine;
 
 public class MoveState : MState
@@ -7,19 +6,16 @@ public class MoveState : MState
 
 
     // variables for moving on xz coordinates
-    private float maxSpeed, acceleration;
-    private readonly float jogSpeed;
+    private float acceleration;
 
     // rotation variables
     private float rotationSpeed = 360f;
-    public MoveState(float maxSpeed, float acceleration, float rotationSpeed = 360f)
+    public MoveState(float acceleration, float rotationSpeed = 360f)
     {
         name = "Move State";
 
-        this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
         this.rotationSpeed = rotationSpeed;
-        this.jogSpeed = 0.5f * maxSpeed;
         
     }
 
@@ -29,36 +25,41 @@ public class MoveState : MState
     }
     protected override void onExit(Entity entity)
     {
-        MyPhysics.ApplyDragOnVelocityVector(entity);
+        if(entity is not Player p) return;
+        if(MyPhysics.GetCurrentSpeed(p) < p.MaxSpeed) SetNewSpeed(p, 0f, Vector2.zero);
+        MyPhysics.ApplyDragOnVelocityVector(p);
     }
 
     protected override void onUpdate(Entity entity)
     {
         if (entity is not Player player) return; 
-        if (player.MoveDirection == Vector2.zero) return;
+        if (player.MoveDirection == Vector2.zero) {
+            MyPhysics.ApplyDragOnVelocityVector(entity);
+            return;
+        }
         
-        CalculateXZMove(player.isRunning, player.MoveDirection, entity);
+        CalculateXZMove(player.isRunning, player.MoveDirection, player);
         RotateCharacter(player.transform, player.MoveDirection);
         // Debug.Log(velocityVector);
 
     }
-    private void CalculateXZMove(bool isRunning, Vector2 moveDirection, Entity entity) {
+    private void CalculateXZMove(bool isRunning, Vector2 moveDirection, Player player) {
         // todo - instant deceleration if player holds CTRL or something
 
-        float currentSpeed = MyPhysics.GetCurrentSpeed(entity);
-        if (currentSpeed > maxSpeed + 1)
+        float currentSpeed = MyPhysics.GetCurrentSpeed(player);
+        if (currentSpeed > player.MaxSpeed + 1)
         {
-            MyPhysics.ApplyDragOnVelocityVector(entity);
+            MyPhysics.ApplyDragOnVelocityVector(player);
             return;
         }
         // else if no force has been applied or if it has been made smaller already just set new speed
 
         if(!isRunning)
         {
-            currentSpeed = jogSpeed;
+            currentSpeed = player.MaxSpeed * 0.5f;
             
         }// else running
-        else if(currentSpeed < maxSpeed)
+        else if(currentSpeed < player.MaxSpeed)
         {
             // accelerating
             currentSpeed += acceleration * Time.deltaTime;
@@ -66,9 +67,9 @@ public class MoveState : MState
         else
         {
             // running, already max speed
-            currentSpeed = maxSpeed;
+            currentSpeed = player.MaxSpeed;
         }
-        SetNewSpeed(entity, currentSpeed, moveDirection);
+        SetNewSpeed(player, currentSpeed, moveDirection);
         
     }
 

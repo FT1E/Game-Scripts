@@ -5,8 +5,6 @@ public class MoveStateSO : StateSO
 {
 
     [SerializeField]
-    private float maxSpeed = 5f;
-    [SerializeField]
     private float acceleration = 5f;
 
     [Tooltip("Rotation speed is in degrees per second")]
@@ -17,7 +15,7 @@ public class MoveStateSO : StateSO
     {
         if (_state == null)
         {
-            _state = new MoveState(maxSpeed, acceleration, rotationSpeed);
+            _state = new MoveState(acceleration, rotationSpeed);
         }
     }
 }

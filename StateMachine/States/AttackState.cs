@@ -36,10 +36,22 @@ public class AttackState : MState
 
     protected override void onEnter(Entity entity)
     {
-        // * input is consumed later in attack animation event for player
+        // * special handling for player - if the attack can be performed while moving or not
         if(entity is Player p) {
-            p.attackPerformed = false;
-            p.attackTurn = false;
+            if (moveAllowed)
+            {
+                p.attackPerformed = true;
+                p.attackTurn = true;
+                p.lightAttackTrigger = false;
+                setValues(entity, damage, knockbackForce, animatorParam);
+            } else
+            {
+                // * input is consumed later in attack animation event for player
+                p.attackPerformed = false;
+                p.attackTurn = false;
+                p.DisableTorsoLayer();
+                p.animator.SetTrigger("CancelLightAttack");
+            }
             return;
         }
         // gradually, but quickly, rotate player in forward direction relative to camera
@@ -54,6 +66,7 @@ public class AttackState : MState
     {
         if (entity is not Player p) return;
         if (p.attackTurn) return;
+        // todo - for player add rotation around x axis
 
         Vector2 dir = p.ForwardDirection;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.y));

@@ -7,6 +7,7 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
 {
 
     public event UnityAction attackEvent = delegate { };
+    public event UnityAction lightAttackEvent = delegate { };
     public event UnityAction<Vector2> cameraMoveEvent = delegate { };
     public event UnityAction<Vector2> moveEvent = delegate { };
     public event UnityAction runStartEvent = delegate { };
@@ -68,6 +69,13 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
         }
         else if (context.phase == InputActionPhase.Canceled) {
             jumpCancelEvent.Invoke();
+        }
+    }
+
+    public void OnLightAttack(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            lightAttackEvent.Invoke();
         }
     }
 }
