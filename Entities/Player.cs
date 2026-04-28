@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Player : Entity
 {
@@ -22,6 +23,10 @@ public class Player : Entity
     [SerializeField]
     private Transform _cameraTransform;
     public Transform cameraTransform { get { return _cameraTransform; } }
+
+    [SerializeField]
+    private Rig _spineRig;
+    public Rig spineRig { get { return _spineRig; } }
 
     // Input variables
 

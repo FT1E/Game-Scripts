@@ -51,6 +51,7 @@ public class AttackState : MState
                 p.attackTurn = false;
                 p.DisableTorsoLayer();
                 p.animator.SetTrigger("CancelLightAttack");
+                p.spineRig.weight = 1f; // todo - maybe do it gradually
             }
             return;
         }
@@ -85,6 +86,7 @@ public class AttackState : MState
         // * for safety
         // * also when attack is cancelled so these are set properly
         entity.animator.SetBool(animatorParam, false);
+        if(entity is Player p) p.spineRig.weight = 0f;
     }
     
     private void setValues(Entity entity, float damage, float knockbackForce, string animatorParam)
