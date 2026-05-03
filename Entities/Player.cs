@@ -61,7 +61,7 @@ public class Player : Entity
     // end Input variables
 
     public bool attackTurn;
-
+    public bool moving;
 
     private CharacterController characterController;
 
@@ -174,7 +174,7 @@ public class Player : Entity
         animator.SetFloat("speed", MyPhysics.GetCurrentSpeed(this) / MaxSpeed);
 
         MyPhysics.ApplyGravity(this);
-        if (MyPhysics.GetCurrentSpeed(this) > MaxSpeed) MyPhysics.ApplyDragOnVelocityVector(this);
+        if (MyPhysics.GetCurrentSpeed(this) > MaxSpeed || !moving) MyPhysics.ApplyDragOnVelocityVector(this);
         // todo - above isn't really enough, need to do something like maybe if it's not in move state then always apply drag
 
         stateMachine.Update(this);

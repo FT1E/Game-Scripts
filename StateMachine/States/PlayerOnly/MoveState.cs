@@ -21,12 +21,12 @@ public class MoveState : MState
 
     protected override void onEnter(Entity entity)
     {
-        return;
+        if(entity is Player p) p.moving = true;
     }
     protected override void onExit(Entity entity)
     {
         if(entity is not Player p) return;
-        if(MyPhysics.GetCurrentSpeed(p) < p.MaxSpeed) SetNewSpeed(p, 0f, Vector2.zero);
+        p.moving = false;
         MyPhysics.ApplyDragOnVelocityVector(p);
     }
 
