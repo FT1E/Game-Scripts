@@ -5,6 +5,9 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour {
 
     [SerializeField]
+    public bool trackAttackRate = false;
+
+    [SerializeField]
     public PlayerInfo playerInfo = default;
     // above is for setting target position of NavMeshAgents
 
@@ -20,6 +23,13 @@ public class EnemyManager : MonoBehaviour {
     private StateSO initialState;
     // todo - dictionary of initial states for different types of mob enemies
     // * - so I can reuse this enemy manager to hold different types of mob enemies
+
+    [SerializeField]
+    private string[] tagsInitState;
+    [SerializeField]
+    private StateSO[] initStates;
+
+    private Dictionary<string, StateSO> initStateDict;
 
 
     // spawning data
@@ -38,6 +48,13 @@ public class EnemyManager : MonoBehaviour {
 
     void Awake()
     {
+        // lazy, but idc for now
+        initStateDict = new Dictionary<string, StateSO>();
+        for(int i=0; i<tagsInitState.Length; i++)
+        {
+            initStateDict[tagsInitState[i]] = initStates[i];
+        }
+
         Enemy enemy;
         activeEnemies = new List<Enemy>(transform.childCount * 2);
         inactiveEnemies = new Stack<Enemy>(transform.childCount * 2);
@@ -46,7 +63,7 @@ public class EnemyManager : MonoBehaviour {
         {
             enemy = child.GetComponent<Enemy>();
             enemy.enemyManager = this;
-            enemy.stateMachine = new StateMachine(initialState);
+            enemy.stateMachine = new StateMachine(initStateDict[enemy.tag]);
             
             // adding first everyone as inactive - then spawning from there
             inactiveEnemies.Push(enemy);
@@ -108,7 +125,8 @@ public class EnemyManager : MonoBehaviour {
         int i = 1;
         foreach(Enemy enemy in activeEnemies)
         {
-            if(DeathCheck(enemy)) return;
+            if (trackAttackRate) enemy.timeSinceLastAtk += Time.deltaTime;
+            if(DeathCheck(enemy)) continue;
 
             // doing below for ground checking - and also setting y velocity, 
             // so it doesn't go through the ground 

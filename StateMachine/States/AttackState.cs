@@ -36,6 +36,7 @@ public class AttackState : MState
 
     protected override void onEnter(Entity entity)
     {
+        entity.timeSinceLastAtk = 0f;
         // * special handling for player - if the attack can be performed while moving or not
         if(entity is Player p) {
             if (moveAllowed)
@@ -87,6 +88,7 @@ public class AttackState : MState
         // * for safety
         // * also when attack is cancelled so these are set properly
         entity.animator.SetBool(animatorParam, false);
+        entity.timeSinceLastAtk = 0f;
         if(entity is Player p) p.spineRig.weight = 0f;
     }
     

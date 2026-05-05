@@ -13,9 +13,11 @@ public class Entity : MonoBehaviour
     public float Health { get {return _health; }}
 
     [SerializeField]
-    public readonly float maxHealth = 100f;
+    private float _maxHealth = 100f;
+    public float maxHealth { get {return _maxHealth; }}
 
-    
+    public float timeSinceLastAtk;
+
     // Weapon script variable
     [SerializeField]
     public Weapon weapon = default;
