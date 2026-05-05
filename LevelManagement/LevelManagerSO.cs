@@ -7,8 +7,15 @@ public class LevelManagerSO : ScriptableObject
     public int[] mobWaveSizes;
 
     private LevelManager _levelManager;
-    public LevelManager LevelManager { get { return _levelManager; }}
+    public LevelManager monoBehaviour { get { return _levelManager; }}
 
+    public float progress {
+        get
+        {
+            if(monoBehaviour == null || mobWaveSizes.Length == 0) return 0f;
+            return monoBehaviour.mobsKilled / (float)mobWaveSizes[mobWaveSizes.Length - 1];
+        }
+    }
 
     public void SetLevelManager(LevelManager levelManager)
     {

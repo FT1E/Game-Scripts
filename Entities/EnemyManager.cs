@@ -132,7 +132,7 @@ public class EnemyManager : MonoBehaviour {
             // then add it to inactive enemies and disable it
             inactiveEnemies.Enqueue(enemy);
             enemy.gameObject.SetActive(false);
-            levelManagerSO.LevelManager.IncreaseMobKillCount();
+            levelManagerSO.monoBehaviour.IncreaseMobKillCount();
             return true;
         }
         return false;

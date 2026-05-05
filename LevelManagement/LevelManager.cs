@@ -9,7 +9,8 @@ public class LevelManager : MonoBehaviour
     private LevelManagerSO levelManagerSO;
 
     private int mobsSpawned = 0;
-    private int mobsKilled = 0;
+    private int _mobsKilled = 0;
+    public int mobsKilled { get { return _mobsKilled; } } 
 
     private int currentWave = 0;
 
@@ -22,9 +23,16 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        if(mobsKilled >= levelManagerSO.mobWaveSizes[currentWave])
+        if(_mobsKilled >= levelManagerSO.mobWaveSizes[currentWave])
         {
             currentWave++;
+            if(currentWave == levelManagerSO.mobWaveSizes.Length)
+            {
+                // end game
+                Debug.Log("Level completed!");
+                gameObject.SetActive(false);
+                return;
+            }
         }
         if(mobsSpawned < levelManagerSO.mobWaveSizes[currentWave])
         {
@@ -34,6 +42,6 @@ public class LevelManager : MonoBehaviour
 
     public void IncreaseMobKillCount()
     {
-        mobsKilled++;
+        _mobsKilled++;
     }
 }
