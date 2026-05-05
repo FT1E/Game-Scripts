@@ -69,4 +69,16 @@ public static class MyPhysics
         }
     }
     
+    // putting this here since it's the only static class
+    public static void Shuffle<T>(T[] array)
+    {
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random((uint)System.DateTime.Now.Ticks);
+        for (int i = 0; i < array.Length; i++)
+        {
+            int j = r.NextInt(0, array.Length);
+            T temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
 }

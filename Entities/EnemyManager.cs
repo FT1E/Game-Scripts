@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour {
+
+    [SerializeField]
+    private LevelManagerSO levelManagerSO;
 
     [SerializeField]
     public bool trackAttackRate = false;
@@ -16,8 +20,9 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     private List<Enemy> activeEnemies;
     
+    public int AliveMobCount { get { return activeEnemies.Count; } }
     //  - object pooling
-    private Stack<Enemy> inactiveEnemies;
+    private Queue<Enemy> inactiveEnemies;       // queue even if it's inneficient to have more variety, not just the top 2,3 mobs
 
     [SerializeField]
     private StateSO initialState;
@@ -34,9 +39,8 @@ public class EnemyManager : MonoBehaviour {
 
     // spawning data
     [SerializeField]
-    private readonly float minSpawnDistance = 5f;
-    [SerializeField]
-    private readonly float maxSpawnDistance = 10f;
+    private SpawnPoint[] spawnPoints;
+    private Queue<SpawnPoint> spawnPointQueue;
     // end spawning data
 
 
@@ -48,6 +52,8 @@ public class EnemyManager : MonoBehaviour {
 
     void Awake()
     {
+        spawnPointQueue = new Queue<SpawnPoint>(spawnPoints);
+
         // lazy, but idc for now
         initStateDict = new Dictionary<string, StateSO>();
         for(int i=0; i<tagsInitState.Length; i++)
@@ -55,33 +61,51 @@ public class EnemyManager : MonoBehaviour {
             initStateDict[tagsInitState[i]] = initStates[i];
         }
 
-        Enemy enemy;
         activeEnemies = new List<Enemy>(transform.childCount * 2);
-        inactiveEnemies = new Stack<Enemy>(transform.childCount * 2);
+        inactiveEnemies = new Queue<Enemy>(transform.childCount * 2);
 
-        foreach(Transform child in transform)
+        // bit of randomization
+        Enemy[] children = transform.GetComponentsInChildren<Enemy>();
+        MyPhysics.Shuffle(children);
+
+        foreach(Enemy enemy in children)
         {
-            enemy = child.GetComponent<Enemy>();
             enemy.enemyManager = this;
             enemy.stateMachine = new StateMachine(initStateDict[enemy.tag]);
             
             // adding first everyone as inactive - then spawning from there
-            inactiveEnemies.Push(enemy);
+            inactiveEnemies.Enqueue(enemy);
             enemy.gameObject.SetActive(false);
             
         }
     }
 
-    // todo - possible issue - spawning on a non-NavMeshSurface area
-    public void SpawnEnemy(int count)
+    private SpawnPoint getNextSpawnPoint()
     {
+        SpawnPoint spawnPoint = spawnPointQueue.Dequeue();
+        spawnPointQueue.Enqueue(spawnPoint);
+        return spawnPoint;
+    }
+
+    // todo - possible issue - spawning on a non-NavMeshSurface area
+    public int SpawnEnemy(int count)
+    {
+        int spawned = 0;
         for(;count > 0; count--)
         {
-            Enemy enemy = inactiveEnemies.Pop();
-            if(enemy == null) return;   // in case stack is empty
+            if(inactiveEnemies == null || inactiveEnemies.Count == 0) break;
+            Enemy enemy = inactiveEnemies.Dequeue();
 
-            Vector3 spawnPos = new Vector3(Random.Range(-1f,1f), 0f, Random.Range(-1f,1f));
-            spawnPos = spawnPos.normalized * Random.Range(minSpawnDistance, maxSpawnDistance) + playerInfo.position;// around the player
+            SpawnPoint spawnPoint = getNextSpawnPoint();
+            if (!spawnPoint.Available())
+            {
+                inactiveEnemies.Enqueue(enemy);   // put it back
+                // will skip this time and try again next frame
+                continue;
+            }   
+                
+
+            Vector3 spawnPos = spawnPoint.GetSpawnPosition();
 
             //* - the terrain is gonna be simple
             spawnPos.y = 1f;    // rather have them float a bit and fall down, than accidentally spawn them below ground
@@ -93,7 +117,9 @@ public class EnemyManager : MonoBehaviour {
             enemy.stateMachine.Reset(enemy);
 
             activeEnemies.Add(enemy);
+            spawned++;
         }
+        return spawned;
     }
 
     private bool DeathCheck(Enemy enemy)
@@ -104,8 +130,9 @@ public class EnemyManager : MonoBehaviour {
             // remove it from active enemies
             activeEnemies.Remove(enemy);
             // then add it to inactive enemies and disable it
-            inactiveEnemies.Push(enemy);
+            inactiveEnemies.Enqueue(enemy);
             enemy.gameObject.SetActive(false);
+            levelManagerSO.LevelManager.IncreaseMobKillCount();
             return true;
         }
         return false;
@@ -118,12 +145,11 @@ public class EnemyManager : MonoBehaviour {
 
     void Update()
     {
-        SpawnEnemy(desiredNumberOfActiveEnemies - activeEnemies.Count);
 
         // todo - group behvaiour for mobs
         Debug.Log($"Number of active enemies:{activeEnemies.Count}");
         int i = 1;
-        foreach(Enemy enemy in activeEnemies)
+        foreach(Enemy enemy in activeEnemies.ToList())
         {
             if (trackAttackRate) enemy.timeSinceLastAtk += Time.deltaTime;
             if(DeathCheck(enemy)) continue;
