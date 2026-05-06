@@ -45,6 +45,9 @@ public class Player : Entity
 
     [SerializeField]
     private Material weaponEmissionMaterial;
+    [SerializeField]
+    private ParticleSystem weaponParticles;
+
     // Input variables
 
     // input move direction
@@ -190,10 +193,13 @@ public class Player : Entity
         // * enable emmision on material - so weapon shines a bit
         weaponEmissionMaterial.EnableKeyword("_EMISSION");
         weaponEmissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-        
+        weaponParticles.Play();
+
         weapon.SetKnockback(weaponKnockbackMode_force);
         
         yield return new WaitForSeconds(weaponKnockbackMode_duration);
+        
+        weaponParticles.Stop();
         
         weapon.SetKnockback(0f);
         
