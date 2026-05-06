@@ -5,7 +5,7 @@ public class Shield : MonoBehaviour
 {
     [SerializeField]
     private float timeout = 5f; // how many seconds until shield can be used again
-    private float timeSinceLastCast = 0f;
+    private float timeSinceLastCast = 5f;   // default value so player can cast right from the start
     public float cooldown { 
         get
         {

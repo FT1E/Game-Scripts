@@ -21,6 +21,11 @@ public class LevelManager : MonoBehaviour
         levelManagerSO.SetLevelManager(this);
     }
 
+    void Start()
+    {
+        levelManagerSO.SetPlayerAbilities();
+    }
+
     void Update()
     {
         if(_mobsKilled >= levelManagerSO.mobWaveSizes[currentWave])

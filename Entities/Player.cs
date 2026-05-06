@@ -79,12 +79,16 @@ public class Player : Entity
         _inputReader.jumpCancelEvent += JumpCancel;
         _inputReader.attackEvent += AttackTrigger;
         _inputReader.lightAttackEvent += LightAttackTrigger;
-        _inputReader.shieldEvent += CastShield;
+        
 
         _inputReader.EnableGameplay();
 
 
 
+    }
+
+    public void EnableShield() {
+        _inputReader.shieldEvent += CastShield;
     }
 
     private void OnDisable()
@@ -177,6 +181,7 @@ public class Player : Entity
 
     void Awake()
     {
+        playerInfo.SetPlayer(this);
         characterController = GetComponent<CharacterController>();
         stateMachine = new StateMachine(initialState);
         weapon.SetHitLayer(7);
