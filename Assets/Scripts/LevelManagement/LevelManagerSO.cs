@@ -5,6 +5,12 @@ using UnityEngine;
 public class LevelManagerSO : ScriptableObject
 {
     [SerializeField]
+    public SceneSO[] scenesToLoad;
+
+    [SerializeField]
+    public string startMessage;
+
+    [SerializeField]
     public int[] mobWaveSizes;
 
     private LevelManager _levelManager;

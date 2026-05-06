@@ -5,11 +5,15 @@ public class SceneExit : MonoBehaviour
     [SerializeField]
     private SceneLoaderChannelSO sceneLoaderChannelSO;
 
-    [SerializeField]
-    private SceneSO[] scenesToLoad;
 
     [SerializeField]
-    private LevelManagerSO levelManagerSO;
+    private LevelManagerSO currentLevelManagerSO;
+    [SerializeField]
+    private LevelManagerSO nextLevelManagerSO;
+
+    [Tooltip("For final level, other scenes to load since no next level.")]
+    [SerializeField]
+    private SceneSO[] altScenes;
 
     private Collider col;
 
@@ -17,7 +21,7 @@ public class SceneExit : MonoBehaviour
     {
         col = GetComponent<Collider>();
         col.isTrigger = false;  // disable trigger until level is completed
-        levelManagerSO.SetSceneExit(this);
+        currentLevelManagerSO.SetSceneExit(this);
     }
 
     public void Enable(Material mat)
@@ -31,7 +35,12 @@ public class SceneExit : MonoBehaviour
         Debug.Log($"{other.name} entered scene exit trigger");
         if (other.gameObject.layer == 6)    // player layer
         {
-            sceneLoaderChannelSO.RaiseEvent(scenesToLoad);
+            if(nextLevelManagerSO == null)
+            {
+                sceneLoaderChannelSO.RaiseEvent(altScenes);
+                return;
+            }
+            sceneLoaderChannelSO.RaiseEvent(nextLevelManagerSO.scenesToLoad);
         }
     }
 }

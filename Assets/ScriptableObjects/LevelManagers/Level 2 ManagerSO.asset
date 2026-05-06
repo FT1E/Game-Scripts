@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183ba5c5ba3ce3e459a29eb6892f33bc, type: 3}
   m_Name: Level 2 ManagerSO
   m_EditorClassIdentifier: Assembly-CSharp::LevelManagerSO
-  mobWaveSizes: 01000000
+  scenesToLoad:
+  - {fileID: 11400000, guid: 011aa95d2eaaf3244b91bc7a097a557e, type: 2}
+  - {fileID: 11400000, guid: af3fa77d5b420744b881f34c150eeda4, type: 2}
+  startMessage: Press R to cast a shield around yourself.
+  mobWaveSizes: 02000000
   _dayNightCycle: 1
-  _dayNightCycleDuration: 10
+  _dayNightCycleDuration: 180
   _startingDayNightCycleProgress: 50
   _playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
   _shieldEnabled: 1

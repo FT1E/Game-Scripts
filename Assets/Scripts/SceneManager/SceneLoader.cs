@@ -26,7 +26,7 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        if(SceneManager.GetActiveScene().name == initSceneName.sceneName)
+        if(SceneManager.sceneCount == 1)
         {
             LoadScenes(menuScenes);
         }

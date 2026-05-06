@@ -15,7 +15,7 @@ MonoBehaviour:
   transitions:
   - _toState: {fileID: 11400000, guid: b7150b70d76061545b8bf3dae6c8cf84, type: 2}
     conditions: []
-  damage: 20
+  damage: 30
   animatorParameter: Attack1
   knockbackForce: 2
   rotationSpeed: 540

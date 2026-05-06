@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183ba5c5ba3ce3e459a29eb6892f33bc, type: 3}
   m_Name: Level 1 ManagerSO
   m_EditorClassIdentifier: Assembly-CSharp::LevelManagerSO
+  scenesToLoad:
+  - {fileID: 11400000, guid: 011aa95d2eaaf3244b91bc7a097a557e, type: 2}
+  - {fileID: 11400000, guid: 8c9ba57e2eb718b46b3b6fb5e7abdf32, type: 2}
+  startMessage: Perform mouse clicks to attack
   mobWaveSizes: 01000000
   _dayNightCycle: 0
   _dayNightCycleDuration: 60

@@ -50,6 +50,16 @@ public class Player : Entity
     [SerializeField]
     private ParticleSystem weaponParticles;
 
+    [SerializeField]
+    private UI_SO uiSO;
+
+    [SerializeField]
+    private SceneLoaderChannelSO sceneLoaderChannel;
+    [SerializeField]
+    private SceneSO[] menuScenes;
+    private bool calledMenuScenes = false;
+
+
     // Input variables
 
     // input move direction
@@ -90,6 +100,8 @@ public class Player : Entity
     // Input actions system stuff
      private void OnEnable()
     {
+        playerInfo.SetPlayer(this);
+
         _inputReader.moveEvent += OnMove;
         _inputReader.runStartEvent += RunStart;
         _inputReader.runStopEvent += RunStop;
@@ -164,7 +176,7 @@ public class Player : Entity
         if(!shield.Activate())
         {
             Debug.Log($"Shield on cooldown. Time left: {shield.cooldown:0.00}s");
-            // todo - something in UI that it's on timeout
+            uiSO.playerUI.SetCooldownText($"Shield on cooldown. Time left: {shield.cooldown:0.00}s");
         }
     }
     private void ActivateKnockbackMode()
@@ -178,7 +190,7 @@ public class Player : Entity
         else
         {
             Debug.Log($"Knockback Mode on cooldown. Time left: {weaponKnockbackMode_cooldown - weaponKnockbackMode_timer:0.00}s");
-            // todo - something in UI that it's on timeout
+            uiSO.playerUI.SetCooldownText($"Knockback Mode on cooldown. Time left: {weaponKnockbackMode_cooldown - weaponKnockbackMode_timer:0.00}s");
         }
     }
     // end Input actions system stuff
@@ -246,7 +258,6 @@ public class Player : Entity
     {
         if(_cameraTransform == null) _cameraTransform = Camera.main.transform;
         
-        playerInfo.SetPlayer(this);
         characterController = GetComponent<CharacterController>();
         stateMachine = new StateMachine(initialState);
         weapon.SetHitLayer(7);
@@ -259,6 +270,13 @@ public class Player : Entity
     }
     void Update()
     {
+        if(Health <= 0f && !calledMenuScenes)
+        {
+            sceneLoaderChannel.RaiseEvent(menuScenes);
+            calledMenuScenes = true;
+            return;
+        }
+
         if(weaponKnockbackMode_timer < weaponKnockbackMode_cooldown) weaponKnockbackMode_timer += Time.deltaTime;
         else weaponKnockbackMode_timer = weaponKnockbackMode_cooldown;
         
@@ -272,6 +290,7 @@ public class Player : Entity
         characterController.Move(velocityVector * Time.deltaTime);
 
         playerInfo.SetPosition(transform.position);
+        uiSO.playerUI.UpdateHPBar(Health, maxHealth);
     }
 
 }

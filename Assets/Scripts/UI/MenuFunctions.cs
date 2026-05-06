@@ -6,11 +6,11 @@ public class MenuFunctions : MonoBehaviour
     private SceneLoaderChannelSO sceneLoaderChannel;
 
     [SerializeField]
-    private SceneSO[] level_1Scenes;
+    private LevelManagerSO level_1_ManagerSO;
     [SerializeField]
-    private SceneSO[] level_2Scenes;
+    private LevelManagerSO level_2_ManagerSO;
     [SerializeField]
-    private SceneSO[] level_3Scenes;
+    private LevelManagerSO level_3_ManagerSO;
 
 
     [SerializeField]
@@ -19,20 +19,37 @@ public class MenuFunctions : MonoBehaviour
     private GameObject levelsPanel;
     [SerializeField]
     private GameObject controlsPanel;
+    [SerializeField]
+    private GameObject gameOverPanel;
+
+    [SerializeField]
+    private PlayerInfo playerInfo;
+
+    void OnEnable()
+    {
+        if(playerInfo.player != null && playerInfo.player.Health <= 0f)
+        {
+            ShowGameOver();
+        }
+        else
+        {
+            ShowMenu();
+        }
+    }
 
     public void StartLevel_1()
     {
-        sceneLoaderChannel.RaiseEvent(level_1Scenes);
+        sceneLoaderChannel.RaiseEvent(level_1_ManagerSO.scenesToLoad);
     }
 
     public void StartLevel_2()
     {
-        sceneLoaderChannel.RaiseEvent(level_2Scenes);
+        sceneLoaderChannel.RaiseEvent(level_2_ManagerSO.scenesToLoad);
     }
 
     public void StartLevel_3()
     {
-        sceneLoaderChannel.RaiseEvent(level_3Scenes);
+        sceneLoaderChannel.RaiseEvent(level_3_ManagerSO.scenesToLoad);
     }
 
     public void ShowLevels()
@@ -40,6 +57,7 @@ public class MenuFunctions : MonoBehaviour
         menuPanel.SetActive(false);
         levelsPanel.SetActive(true);
         controlsPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
     }
 
     public void ShowMenu()
@@ -47,6 +65,7 @@ public class MenuFunctions : MonoBehaviour
         menuPanel.SetActive(true);
         levelsPanel.SetActive(false);
         controlsPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
     }
 
     public void ShowControls()
@@ -54,6 +73,15 @@ public class MenuFunctions : MonoBehaviour
         menuPanel.SetActive(false);
         levelsPanel.SetActive(false);
         controlsPanel.SetActive(true);
+        gameOverPanel.SetActive(false);
+    }
+
+    public void ShowGameOver()
+    {
+        menuPanel.SetActive(false);
+        levelsPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+        gameOverPanel.SetActive(true);
     }
 
 

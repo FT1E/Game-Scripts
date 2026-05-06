@@ -21,12 +21,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Material sceneExitMaterial;
 
+    [SerializeField]
+    private UI_SO uiSO;
+
     private void Awake() {
         levelManagerSO.SetLevelManager(this);
     }
 
     void Start()
     {
+        uiSO.playerUI.SetCooldownText(levelManagerSO.startMessage);
+
         levelManagerSO.SetPlayerAbilities();
         SkyboxDayNightCycle.Instance.TimeOfDay = levelManagerSO.startingDayNightCycleProgress;
     }
