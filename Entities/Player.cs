@@ -22,7 +22,7 @@ public class Player : Entity
     
 
     [SerializeField]
-    private Transform _cameraTransform;
+    private Transform _cameraTransform = default;
     public Transform cameraTransform { get { return _cameraTransform; } }
 
     [SerializeField]
@@ -236,6 +236,8 @@ public class Player : Entity
 
     void Awake()
     {
+        if(_cameraTransform == null) _cameraTransform = Camera.main.transform;
+        
         playerInfo.SetPlayer(this);
         characterController = GetComponent<CharacterController>();
         stateMachine = new StateMachine(initialState);

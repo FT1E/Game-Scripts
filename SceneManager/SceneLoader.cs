@@ -9,7 +9,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     private SceneSO initSceneName = default;
     [SerializeField]
-    private SceneSO menuSceneName = default;
+    private SceneSO[] menuScenes = default;
 
     private List<Scene> scenesToUnload = new List<Scene>();
 
@@ -26,7 +26,10 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        
+        if(SceneManager.GetActiveScene().name == initSceneName.sceneName)
+        {
+            LoadScenes(menuScenes);
+        }
     }
 
     private void LoadScenes(SceneSO[] scenesToLoad)
