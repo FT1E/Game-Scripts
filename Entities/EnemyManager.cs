@@ -168,4 +168,14 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
+    void OnDisable()
+    {
+        foreach(Enemy enemy in activeEnemies.ToList())
+        {
+            activeEnemies.Remove(enemy);
+            enemy.gameObject.SetActive(false);
+            inactiveEnemies.Enqueue(enemy);
+        }
+    }
+
 }

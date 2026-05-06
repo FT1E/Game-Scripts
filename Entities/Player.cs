@@ -96,11 +96,6 @@ public class Player : Entity
         _inputReader.attackEvent += AttackTrigger;
         _inputReader.lightAttackEvent += LightAttackTrigger;
         
-
-        _inputReader.EnableGameplay();
-
-
-
     }
 
     public void EnableShield() {
@@ -123,7 +118,7 @@ public class Player : Entity
         _inputReader.shieldEvent -= CastShield;
         _inputReader.knockbackModeTriggerEvent -= ActivateKnockbackMode;
 
-        _inputReader.DisableInputSystem();
+        // _inputReader.DisableInputSystem();
 
         
     }
@@ -248,6 +243,10 @@ public class Player : Entity
         weapon.cancelAttacks = true;
     }
 
+    void Start()
+    {
+        _inputReader.EnableGameplay();
+    }
     void Update()
     {
         if(weaponKnockbackMode_timer < weaponKnockbackMode_cooldown) weaponKnockbackMode_timer += Time.deltaTime;
