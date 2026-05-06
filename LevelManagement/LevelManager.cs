@@ -18,6 +18,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private EnemyManager enemyManager;
 
+    [SerializeField]
+    private Material sceneExitMaterial;
+
     private void Awake() {
         levelManagerSO.SetLevelManager(this);
     }
@@ -36,8 +39,9 @@ public class LevelManager : MonoBehaviour
             if(currentWave == levelManagerSO.mobWaveSizes.Length)
             {
                 // end game
-                Debug.Log("Level completed!");
+                Debug.Log("Level completed! Head to exit to next level! Or back to main menu if final!");
                 gameObject.SetActive(false);
+                levelManagerSO.sceneExit.Enable(sceneExitMaterial);
                 return;
             }
         }

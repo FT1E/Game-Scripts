@@ -29,6 +29,8 @@ public class Player : Entity
     private Rig _spineRig;
     public Rig spineRig { get { return _spineRig; } }
 
+    [SerializeField]
+    private Vector3 weaponScaleDuringAttack = Vector3.one;
 
     [SerializeField]
     private Shield shield;
@@ -207,11 +209,17 @@ public class Player : Entity
     }
 
     // managing weapon attack collisions
-    
 
+    public override void EnableWeaponCollision()
+    {
+        base.EnableWeaponCollision();
+        weapon.transform.localScale = weaponScaleDuringAttack;
+    }
     public override void DisableWeaponCollision(string animatorParam)
     {
+        weapon.transform.localScale = Vector3.one;
         lightAttackTrigger = false;
+        DisableTorsoLayer();
         attackTrigger = false;      // consume input
         base.DisableWeaponCollision(animatorParam);
     }

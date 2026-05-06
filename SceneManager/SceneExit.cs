@@ -8,7 +8,23 @@ public class SceneExit : MonoBehaviour
     [SerializeField]
     private SceneSO[] scenesToLoad;
 
-    // when entering inside this space - when collider enabled, change scenes
+    [SerializeField]
+    private LevelManagerSO levelManagerSO;
+
+    private Collider col;
+
+    void OnEnable()
+    {
+        col = GetComponent<Collider>();
+        col.isTrigger = false;  // disable trigger until level is completed
+        levelManagerSO.SetSceneExit(this);
+    }
+
+    public void Enable(Material mat)
+    {
+        col.isTrigger = true;
+        GetComponent<MeshRenderer>().material = mat;
+    }
 
     void OnTriggerEnter(Collider other)
     {

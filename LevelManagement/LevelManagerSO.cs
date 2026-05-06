@@ -47,6 +47,10 @@ public class LevelManagerSO : ScriptableObject
     private bool _knockbackEnabled;
     public bool knockbackEnabled { get { return _knockbackEnabled; } }
 
+
+    private SceneExit _sceneExit;
+    public SceneExit sceneExit { get { return _sceneExit; } }
+
     public void SetLevelManager(LevelManager levelManager)
     {
         this._levelManager = levelManager;
@@ -57,5 +61,10 @@ public class LevelManagerSO : ScriptableObject
         if(_playerInfo.player == null) return;
         if(_shieldEnabled) _playerInfo.player.EnableShield();
         if(_knockbackEnabled) _playerInfo.player.EnableKnockbackMode();
+    }
+
+    public void SetSceneExit(SceneExit sceneExit)
+    {
+        this._sceneExit = sceneExit;
     }
 }
