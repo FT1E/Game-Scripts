@@ -15,7 +15,7 @@ public class SpellCaster : Weapon
     public void CastSpell(int i)
     {
         spells[i].setAttackingTrue();
-        spells[i].Play();
+        spells[i].Play(transform);
     }
     
     public override void SetDamage(float damage)

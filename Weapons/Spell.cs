@@ -21,11 +21,17 @@ public class Spell : Weapon
         particles = GetComponent<ParticleSystem>();
     }
 
-    public void Play()
+    public void Play(Transform caster)
     {
         if (moveSpell)
         {
             transform.position = playerInfo.position + new Vector3(Random.Range(-jitter, jitter), 0, Random.Range(-jitter, jitter));
+        }else
+        {
+            transform.position = caster.position;
+            transform.rotation = caster.rotation;
+            transform.Rotate(0, -90, 0); // so that the spell faces forward instead of to the right
+            // only 1 spell goes here, and it needs to be rotated -90 on y
         }
         particles.Play();
     }
