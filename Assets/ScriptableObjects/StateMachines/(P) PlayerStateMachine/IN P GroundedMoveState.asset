@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6debc694959de2141b12d61709f1a653, type: 3}
+  m_Name: IN P GroundedMoveState
+  m_EditorClassIdentifier: Assembly-CSharp::MoveStateSO
+  transitions:
+  - _toState: {fileID: 11400000, guid: d8c2369e61125384daec8a768486523c, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 46642dd1c04d69c46958f4b9a456913e, type: 2}
+  - _toState: {fileID: 11400000, guid: 6548c3b4779a24b4e89c8faba33d59a5, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 96c6a8b8d4fb6984bb188139bc965891, type: 2}
+  - _toState: {fileID: 11400000, guid: cf75519f92b12c2459c7894d028869e7, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: e295165688f6faa429b6ace1ece8152d, type: 2}
+  - _toState: {fileID: 11400000, guid: 5d0e2e89ef4d48e4799baafaca358e3b, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 621d98d30e3ed7b4e8c56bd9d83d4186, type: 2}
+  acceleration: 3.4
+  rotationSpeed: 360

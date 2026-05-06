@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d1c4238083a9845a1feee55c4497ff, type: 3}
+  m_Name: SAM NavMove Run
+  m_EditorClassIdentifier: Assembly-CSharp::NavMeshMoveStateSO
+  transitions:
+  - _toState: {fileID: 11400000, guid: dc0b0e3ee6ae4d54ea36be4292487718, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 14c0ebc787bd5ad4587f9eb4e043ecbb, type: 2}
+  - _toState: {fileID: 11400000, guid: 1b3cf6e5a3dfec04f9f121579362edab, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 4dc1ca5c8efc7484287d5a651f34ba2c, type: 2}
+  - _toState: {fileID: 11400000, guid: 7d5356868f4b5854887b26b4375fc2eb, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: ad7574032ed578847b4c7b9f405d565c, type: 2}
+    - {fileID: 11400000, guid: 2f6bf25e8d060b443a80621eb8b07888, type: 2}
+  - _toState: {fileID: 11400000, guid: 0d704c9dfb4971043b83491341891a86, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 4dc1ca5c8efc7484287d5a651f34ba2c, type: 2}
+  playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
+  speed: 6
+  specialAnimationParam: Run

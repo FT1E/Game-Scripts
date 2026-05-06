@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5cead772352e6409dfcba8b3a2e32f, type: 3}
+  m_Name: DIM RandomAttackStateSO 1
+  m_EditorClassIdentifier: Assembly-CSharp::RandomStateSO
+  transitions: []
+  states:
+  - {fileID: 11400000, guid: bb683623cd6618344805921c100cb049, type: 2}
+  - {fileID: 11400000, guid: d41807a0eccab034cb5aee946d1d41fa, type: 2}

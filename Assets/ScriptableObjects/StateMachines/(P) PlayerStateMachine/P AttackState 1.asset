@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0866868e61bfe4047bf590303e6bf42f, type: 3}
+  m_Name: P AttackState 1
+  m_EditorClassIdentifier: Assembly-CSharp::AttackStateSO
+  transitions:
+  - _toState: {fileID: 11400000, guid: b7150b70d76061545b8bf3dae6c8cf84, type: 2}
+    conditions: []
+  damage: 20
+  animatorParameter: Attack1
+  knockbackForce: 2
+  rotationSpeed: 540
+  moveAllowed: 0
