@@ -103,8 +103,6 @@ public class EnemyManager : MonoBehaviour {
                 // will skip this time and try again next frame
                 continue;
             }   
-                
-
             Vector3 spawnPos = spawnPoint.GetSpawnPosition();
 
             //* - the terrain is gonna be simple
@@ -145,7 +143,7 @@ public class EnemyManager : MonoBehaviour {
 
     void Update()
     {
-
+        // SpawnEnemy(desiredNumberOfActiveEnemies - activeEnemies.Count);
         // todo - group behvaiour for mobs
         Debug.Log($"Number of active enemies:{activeEnemies.Count}");
         int i = 1;

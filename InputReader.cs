@@ -14,6 +14,7 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
     public event UnityAction runStopEvent = delegate { };
     public event UnityAction jumpStartEvent = delegate { };
     public event UnityAction jumpCancelEvent = delegate { };
+    public event UnityAction shieldEvent = delegate { };
 
 
     private PlayerInputSystem playerInput;
@@ -76,6 +77,13 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
     {
         if (context.phase == InputActionPhase.Performed) {
             lightAttackEvent.Invoke();
+        }
+    }
+
+    public void OnShield(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            shieldEvent.Invoke();
         }
     }
 }

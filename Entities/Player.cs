@@ -28,6 +28,10 @@ public class Player : Entity
     private Rig _spineRig;
     public Rig spineRig { get { return _spineRig; } }
 
+
+    [SerializeField]
+    private Shield shield;
+
     // Input variables
 
     // input move direction
@@ -75,6 +79,7 @@ public class Player : Entity
         _inputReader.jumpCancelEvent += JumpCancel;
         _inputReader.attackEvent += AttackTrigger;
         _inputReader.lightAttackEvent += LightAttackTrigger;
+        _inputReader.shieldEvent += CastShield;
 
         _inputReader.EnableGameplay();
 
@@ -91,6 +96,7 @@ public class Player : Entity
         _inputReader.jumpCancelEvent -= JumpCancel;
         _inputReader.attackEvent -= AttackTrigger;
         _inputReader.lightAttackEvent -= LightAttackTrigger;
+        _inputReader.shieldEvent -= CastShield;
 
         _inputReader.DisableInputSystem();
 
@@ -129,6 +135,15 @@ public class Player : Entity
     private void LightAttackTrigger()
     {
         lightAttackTrigger = true;
+    }
+
+    private void CastShield()
+    {
+        if(!shield.Activate())
+        {
+            Debug.Log($"Shield on cooldown. Time left: {shield.cooldown:0.00}s");
+            // todo - something in UI that it's on timeout
+        }
     }
     // end Input actions system stuff
 
