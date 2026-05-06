@@ -1,3 +1,4 @@
+using Borodar.FarlandSkies.CloudyCrownPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -24,6 +25,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         levelManagerSO.SetPlayerAbilities();
+        SkyboxDayNightCycle.Instance.TimeOfDay = levelManagerSO.startingDayNightCycleProgress;
     }
 
     void Update()
@@ -42,6 +44,11 @@ public class LevelManager : MonoBehaviour
         if(mobsSpawned < levelManagerSO.mobWaveSizes[currentWave])
         {
             mobsSpawned += enemyManager.SpawnEnemy(levelManagerSO.mobWaveSizes[currentWave] - mobsSpawned);
+        }
+
+        if(levelManagerSO.dayNightCycle)
+        {
+            SkyboxDayNightCycle.Instance.TimeOfDay += (Time.deltaTime / levelManagerSO.dayNightCycleDuration) * 100f % 100f;
         }
     }
 

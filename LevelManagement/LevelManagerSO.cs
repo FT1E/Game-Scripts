@@ -1,3 +1,4 @@
+using Borodar.FarlandSkies.CloudyCrownPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelManagerSO", menuName = "LevelManagerSO", order = 0)]
@@ -8,6 +9,20 @@ public class LevelManagerSO : ScriptableObject
 
     private LevelManager _levelManager;
     public LevelManager monoBehaviour { get { return _levelManager; }}
+
+    [Header("Skybox settings")]
+    [SerializeField]
+    private bool _dayNightCycle = false;
+    public bool dayNightCycle { get { return _dayNightCycle; } }
+    [SerializeField]
+    private float _dayNightCycleDuration = 60f;
+    public float dayNightCycleDuration { get { return _dayNightCycleDuration; } }
+
+    [Tooltip("0 to 100, 0 is midnight, 50 is 12pm and 100 is midnight again")]
+    [SerializeField]
+    private float _startingDayNightCycleProgress = 50f;
+    public float startingDayNightCycleProgress { get { return _startingDayNightCycleProgress; } }
+    
 
     public float progress {
         get
