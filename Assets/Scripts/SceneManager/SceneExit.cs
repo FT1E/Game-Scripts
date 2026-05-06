@@ -38,6 +38,7 @@ public class SceneExit : MonoBehaviour
             if(nextLevelManagerSO == null)
             {
                 sceneLoaderChannelSO.RaiseEvent(altScenes);
+                other.GetComponent<Player>().playerInfo.won = true;
                 return;
             }
             sceneLoaderChannelSO.RaiseEvent(nextLevelManagerSO.scenesToLoad);

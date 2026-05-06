@@ -11,7 +11,8 @@ public class Player : Entity
 
     
     [SerializeField]
-    private PlayerInfo playerInfo;
+    private PlayerInfo _playerInfo;
+    public PlayerInfo playerInfo { get { return _playerInfo; } }
 
     [SerializeField]
     private StateSO initialState;
@@ -100,7 +101,7 @@ public class Player : Entity
     // Input actions system stuff
      private void OnEnable()
     {
-        playerInfo.SetPlayer(this);
+        _playerInfo.SetPlayer(this);
 
         _inputReader.moveEvent += OnMove;
         _inputReader.runStartEvent += RunStart;
@@ -289,7 +290,7 @@ public class Player : Entity
         stateMachine.Update(this);
         characterController.Move(velocityVector * Time.deltaTime);
 
-        playerInfo.SetPosition(transform.position);
+        _playerInfo.SetPosition(transform.position);
         uiSO.playerUI.UpdateHPBar(Health, maxHealth);
     }
 

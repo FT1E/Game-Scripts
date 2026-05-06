@@ -11,6 +11,8 @@ public class PlayerInfo : ScriptableObject
     private Player _player;
     public Player player { get { return _player; }}
 
+    public bool won = false;
+
     public void SetPosition(Vector3 val)
     {
         _position = val;

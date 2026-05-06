@@ -23,18 +23,26 @@ public class MenuFunctions : MonoBehaviour
     private GameObject gameOverPanel;
 
     [SerializeField]
+    private GameObject congratsPanel;
+
+
+    [SerializeField]
     private PlayerInfo playerInfo;
 
     void OnEnable()
     {
-        if(playerInfo.player != null && playerInfo.player.Health <= 0f)
+        if(playerInfo.player != null)
         {
-            ShowGameOver();
+            if(playerInfo.player.Health <= 0f)
+            {
+                ShowGameOver();
+            }else if(playerInfo.won)
+            {
+                ShowCongratsPanel();
+            }
+            return;
         }
-        else
-        {
-            ShowMenu();
-        }
+        ShowMenu();
     }
 
     public void StartLevel_1()
@@ -58,6 +66,7 @@ public class MenuFunctions : MonoBehaviour
         levelsPanel.SetActive(true);
         controlsPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        congratsPanel.SetActive(false);
     }
 
     public void ShowMenu()
@@ -66,6 +75,7 @@ public class MenuFunctions : MonoBehaviour
         levelsPanel.SetActive(false);
         controlsPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        congratsPanel.SetActive(false);
     }
 
     public void ShowControls()
@@ -74,6 +84,7 @@ public class MenuFunctions : MonoBehaviour
         levelsPanel.SetActive(false);
         controlsPanel.SetActive(true);
         gameOverPanel.SetActive(false);
+        congratsPanel.SetActive(false);
     }
 
     public void ShowGameOver()
@@ -82,6 +93,16 @@ public class MenuFunctions : MonoBehaviour
         levelsPanel.SetActive(false);
         controlsPanel.SetActive(false);
         gameOverPanel.SetActive(true);
+        congratsPanel.SetActive(false);
+    }
+
+    public void ShowCongratsPanel()
+    {
+        menuPanel.SetActive(false);
+        levelsPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        congratsPanel.SetActive(true);
     }
 
 
