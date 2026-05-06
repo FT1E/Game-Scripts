@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -32,6 +33,18 @@ public class Player : Entity
     [SerializeField]
     private Shield shield;
 
+    // * variables for knockback mode
+    [SerializeField]
+    private float weaponKnockbackMode_cooldown=10f;
+    [SerializeField]
+    private float weaponKnockbackMode_duration=5f;
+    private float weaponKnockbackMode_timer=10f;    // default value so it can be cast right from the start, not on cooldown from start
+    private bool knockbackMode = false; // whether knockback mode is currently on at run-time
+    [SerializeField]
+    private float weaponKnockbackMode_force=5f;
+
+    [SerializeField]
+    private Material weaponEmissionMaterial;
     // Input variables
 
     // input move direction
@@ -91,6 +104,10 @@ public class Player : Entity
         _inputReader.shieldEvent += CastShield;
     }
 
+    public void EnableKnockbackMode() {
+        _inputReader.knockbackModeTriggerEvent += ActivateKnockbackMode;
+    }
+
     private void OnDisable()
     {
         _inputReader.moveEvent -= OnMove;
@@ -101,6 +118,7 @@ public class Player : Entity
         _inputReader.attackEvent -= AttackTrigger;
         _inputReader.lightAttackEvent -= LightAttackTrigger;
         _inputReader.shieldEvent -= CastShield;
+        _inputReader.knockbackModeTriggerEvent -= ActivateKnockbackMode;
 
         _inputReader.DisableInputSystem();
 
@@ -149,7 +167,43 @@ public class Player : Entity
             // todo - something in UI that it's on timeout
         }
     }
+    private void ActivateKnockbackMode()
+    {
+        if(knockbackMode) return;
+
+        if(weaponKnockbackMode_timer >= weaponKnockbackMode_cooldown)
+        {
+            StartCoroutine(KnockbackModeCoroutine());
+        }
+        else
+        {
+            Debug.Log($"Knockback Mode on cooldown. Time left: {weaponKnockbackMode_cooldown - weaponKnockbackMode_timer:0.00}s");
+            // todo - something in UI that it's on timeout
+        }
+    }
     // end Input actions system stuff
+
+    // weapon knockback mode
+    private IEnumerator KnockbackModeCoroutine()
+    {
+        knockbackMode = true;
+        // * enable emmision on material - so weapon shines a bit
+        weaponEmissionMaterial.EnableKeyword("_EMISSION");
+        weaponEmissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+        
+        weapon.SetKnockback(weaponKnockbackMode_force);
+        
+        yield return new WaitForSeconds(weaponKnockbackMode_duration);
+        
+        weapon.SetKnockback(0f);
+        
+        weaponEmissionMaterial.DisableKeyword("_EMISSION");
+        weaponEmissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+        
+        
+        knockbackMode = false;
+        weaponKnockbackMode_timer = 0f; // start cooldown after duration ends
+    }
 
     // managing weapon attack collisions
     
@@ -190,13 +244,15 @@ public class Player : Entity
 
     void Update()
     {
+        if(weaponKnockbackMode_timer < weaponKnockbackMode_cooldown) weaponKnockbackMode_timer += Time.deltaTime;
+        else weaponKnockbackMode_timer = weaponKnockbackMode_cooldown;
+        
         isGrounded = characterController.isGrounded;
         animator.SetFloat("speed", MyPhysics.GetCurrentSpeed(this) / MaxSpeed);
 
         MyPhysics.ApplyGravity(this);
         if (MyPhysics.GetCurrentSpeed(this) > MaxSpeed || !moving) MyPhysics.ApplyDragOnVelocityVector(this);
-        // todo - above isn't really enough, need to do something like maybe if it's not in move state then always apply drag
-
+        
         stateMachine.Update(this);
         characterController.Move(velocityVector * Time.deltaTime);
 

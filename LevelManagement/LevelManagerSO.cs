@@ -41,6 +41,6 @@ public class LevelManagerSO : ScriptableObject
     {
         if(_playerInfo.player == null) return;
         if(_shieldEnabled) _playerInfo.player.EnableShield();
-        if(_knockbackEnabled) {} // todo
+        if(_knockbackEnabled) _playerInfo.player.EnableKnockbackMode();
     }
 }

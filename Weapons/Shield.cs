@@ -9,7 +9,6 @@ public class Shield : MonoBehaviour
     public float cooldown { 
         get
         {
-            if(timeSinceLastCast >= timeout) return 0f;
             return timeout - timeSinceLastCast;
         }
         }
@@ -42,6 +41,7 @@ public class Shield : MonoBehaviour
 
     void Update()
     {
-        timeSinceLastCast += Time.deltaTime;
+        if(timeSinceLastCast < timeout) timeSinceLastCast += Time.deltaTime;
+        else timeSinceLastCast = timeout; 
     }
 }

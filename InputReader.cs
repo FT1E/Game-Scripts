@@ -15,6 +15,7 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
     public event UnityAction jumpStartEvent = delegate { };
     public event UnityAction jumpCancelEvent = delegate { };
     public event UnityAction shieldEvent = delegate { };
+    public event UnityAction knockbackModeTriggerEvent = delegate { };
 
 
     private PlayerInputSystem playerInput;
@@ -84,6 +85,13 @@ public class InputReader : ScriptableObject, PlayerInputSystem.IGameplayActions
     {
         if (context.phase == InputActionPhase.Performed) {
             shieldEvent.Invoke();
+        }
+    }
+
+    public void OnKnockbackMode(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            knockbackModeTriggerEvent.Invoke();
         }
     }
 }

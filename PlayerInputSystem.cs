@@ -154,6 +154,15 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""KnockbackMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""49ac3616-c736-4cfd-9d99-917e0bca3e74"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -321,6 +330,17 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Shield"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""beefdb50-3b9e-4d0f-b8c1-6ba0bcc13f45"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KnockbackMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -336,6 +356,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_LightAttack = m_Gameplay.FindAction("LightAttack", throwIfNotFound: true);
         m_Gameplay_Shield = m_Gameplay.FindAction("Shield", throwIfNotFound: true);
+        m_Gameplay_KnockbackMode = m_Gameplay.FindAction("KnockbackMode", throwIfNotFound: true);
     }
 
     ~@PlayerInputSystem()
@@ -423,6 +444,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_LightAttack;
     private readonly InputAction m_Gameplay_Shield;
+    private readonly InputAction m_Gameplay_KnockbackMode;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -462,6 +484,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Shield".
         /// </summary>
         public InputAction @Shield => m_Wrapper.m_Gameplay_Shield;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/KnockbackMode".
+        /// </summary>
+        public InputAction @KnockbackMode => m_Wrapper.m_Gameplay_KnockbackMode;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -509,6 +535,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Shield.started += instance.OnShield;
             @Shield.performed += instance.OnShield;
             @Shield.canceled += instance.OnShield;
+            @KnockbackMode.started += instance.OnKnockbackMode;
+            @KnockbackMode.performed += instance.OnKnockbackMode;
+            @KnockbackMode.canceled += instance.OnKnockbackMode;
         }
 
         /// <summary>
@@ -541,6 +570,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Shield.started -= instance.OnShield;
             @Shield.performed -= instance.OnShield;
             @Shield.canceled -= instance.OnShield;
+            @KnockbackMode.started -= instance.OnKnockbackMode;
+            @KnockbackMode.performed -= instance.OnKnockbackMode;
+            @KnockbackMode.canceled -= instance.OnKnockbackMode;
         }
 
         /// <summary>
@@ -630,5 +662,12 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShield(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "KnockbackMode" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnKnockbackMode(InputAction.CallbackContext context);
     }
 }

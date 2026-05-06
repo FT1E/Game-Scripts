@@ -95,7 +95,8 @@ public class AttackState : MState
     private void setValues(Entity entity, float damage, float knockbackForce, string animatorParam)
     {
         entity.weapon.SetDamage(damage);
-        entity.weapon.SetKnockback(knockbackForce);
+        // ! below is commented out - in case later I want to switch it back to setting knockbacks per attack instead of manually from the entity
+        // entity.weapon.SetKnockback(knockbackForce);
         entity.animator.SetBool(animatorParam, true);
     }
 
