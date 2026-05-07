@@ -2776,7 +2776,7 @@ MonoBehaviour:
   levelsPanel: {fileID: 988686667}
   controlsPanel: {fileID: 27241673}
   gameOverPanel: {fileID: 1510514119}
-  congratsPanel: {fileID: 0}
+  congratsPanel: {fileID: 178911399}
   playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
 --- !u!1 &1510514119
 GameObject:

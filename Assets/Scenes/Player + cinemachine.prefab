@@ -965,7 +965,7 @@ MonoBehaviour:
   isGrounded: 0
   attackPerformed: 0
   _maxSpeed: 7
-  playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
+  _playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
   initialState: {fileID: 11400000, guid: b7150b70d76061545b8bf3dae6c8cf84, type: 2}
   _inputReader: {fileID: 11400000, guid: 7c4862e8134ffa847a983f85386baf7f, type: 2}
   _cameraTransform: {fileID: 0}

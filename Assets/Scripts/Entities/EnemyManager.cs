@@ -130,7 +130,13 @@ public class EnemyManager : MonoBehaviour {
             // then add it to inactive enemies and disable it
             inactiveEnemies.Enqueue(enemy);
             enemy.gameObject.SetActive(false);
-            levelManagerSO.monoBehaviour.IncreaseMobKillCount();
+
+            // * below bcs one is used by necromancer for spawning
+            // * in that case I don't want level to be completed by killing a normal mob
+            // * only by killing the necromancer (boss enemy)
+            if(levelManagerSO != null) levelManagerSO.monoBehaviour.IncreaseMobKillCount();
+            
+
             return true;
         }
         return false;

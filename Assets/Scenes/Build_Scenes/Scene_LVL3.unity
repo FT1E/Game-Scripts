@@ -250382,7 +250382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b130437475530408ab8dba76f8dee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  levelManagerSO: {fileID: 11400000, guid: 289d229ada9837543a51880152f150ac, type: 2}
+  levelManagerSO: {fileID: 0}
   trackAttackRate: 0
   playerInfo: {fileID: 11400000, guid: d73b8175c00487d4ca21ec174699cfca, type: 2}
   activeEnemies: []

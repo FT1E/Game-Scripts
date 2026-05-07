@@ -41,7 +41,16 @@ public class PlayerUI : MonoBehaviour
     public void UpdateHPBar(float currentHP, float maxHP)
     {
         float fillAmount = currentHP / maxHP;
-        healthBarFill.localScale = new Vector3(fillAmount, 1f, 1f);
+        try
+        {
+            
+            healthBarFill.localScale = new Vector3(fillAmount, 1f, 1f);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("Below likely happenned due to async scene unloading:");
+            Debug.LogError("Error updating health bar: " + e.Message);
+        }
     }
 
     public void ResumeGame()
